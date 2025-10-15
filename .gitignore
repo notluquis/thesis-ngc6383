@@ -1,27 +1,34 @@
-.aux
-.bbl
-.blg
-.bcf
-.log
-.out
-.synctex.gz
-.synctex(busy)
-.toc
-.lof
-.lot
-.fls
-.fdb_latexmk
-.run.xml
-.pdf
-.dvi
-.snm
-.nav
+## Core LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.dvi
+*.xdv
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+*.run.xml
+texput.log
 
-# latexmk
-latexmk
+## Bibliography and index files
+*.bbl
+*.bcf
+*.blg
+*.idx
+*.ilg
+*.ind
 
-# misc editors
-*-converted-to.*
+## Glossaries and acronyms
 *.acn
 *.acr
 *.alg
@@ -31,23 +38,25 @@ latexmk
 *.ist
 *.xdy
 
-# TeXShop
+## Latexmk & arara
+*.fdb_latexmk
 *.auxlock
 
-# TeXworks
-*.pdfsync
+## Beamer & presentations
+*.nav
+*.snm
+*.vrb
 
-# TeXstudio
-*.synctex.gz(busy)
-
-# Kile
+## Converted or backup files
+*-converted-to.*
 *.backup
-
-# Excalibur
+*.lyx~
 *.xcbackup
 
-# LyX
-*.lyx~
+## Generated documents
+*.pdf
+*.ps
+*.eps
 
-# macOS
+## Editor or OS artifacts
 .DS_Store
