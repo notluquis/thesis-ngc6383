@@ -1,0 +1,246 @@
+\documentclass[english, a4paper, 12pt, twoside, openany]{book} 
+
+% -------------- Setup, no cambiar ---------------
+\usepackage{textcomp}                           % Agrega muchos símbolos extra para utilizar en el texto
+\usepackage[T1]{fontenc, url}                   % Para los enlaces url y las fuentes
+\usepackage[utf8]{inputenc}                     % Introduce la codificación utf8 que permite el uso de tildes y otros.
+\usepackage{titlesec}                           % Suplemento a fancyhdr
+\setcounter{secnumdepth}{4}                     % El contador de figuras, secciones, tablas, etc. llega hasta profundidad de 4. i.e. 1.1.1.1
+\usepackage{multirow}                           % Extensión para tablas
+\usepackage{minted}                             % Permite darle formato al código que se muestre.
+\usepackage{adjustbox}                          % Permite mas versatilidad para cosas como includegraphics.
+\usepackage{graphicx}                           % Para poner imágenes
+\usepackage{amsmath, amssymb, amsthm}           % paquetes matemáticos
+\usepackage{parskip}                            % Elimina la sangría
+\urlstyle{sf}                                   % Tipo de url
+\usepackage{color}                              % Agrega colores.
+\usepackage{subcaption}                         % Permite subtextos en las figuras. Es incompatible con el paquete subfig y subfigure
+\usepackage[toc,page]{appendix}                 % Permite el uso de apéndices
+\usepackage{chngcntr}                           % Necesario para enumerar las tablas
+\counterwithin{table}{section}                  % Numeración de tablas 
+\counterwithin{figure}{section}                 % Numeración de figuras
+\numberwithin{equation}{section}                % Numeración de ecuaciones
+\hyphenpenalty=100000                           % No se dividen las palabras al terminar una línea
+\sloppy                                         % Ayuda a que las cosas no se salgan de los márgenes.
+\raggedbottom                                   % Hace que el tamaño de las páginas llegue hasta donde llegue el texto, no agrega espacio vertical
+\usepackage{xparse,nameref}                     % Ayuda en la creación de nuevos comandos
+\usepackage[bottom,hang,flushmargin]{footmisc}  % notas al pie de página están fijas al fondo y sin sangría
+\interfootnotelinepenalty=10000                 % Previene que las notas al pie de página se pasen a la siguiente página cuando son muy largas
+\usepackage{lipsum}                             % Para crear texto de relleno.
+% ----- Apariencia e idioma ----- 
+\usepackage[english]{babel}                                         % Idioma
+\graphicspath{{Images/}{../Images/}}                                % Dónde estarán las imágenes
+\usepackage[left=4cm,top=4cm,bottom=2.5cm,right=2.5cm]{geometry}    % Márgenes del documento
+\usepackage{setspace}                                               % Permite elegir el interlineado
+\linespread{1.3}                                                    % Interlineado de uno y medio. 1.6 es interlineado doble.
+\usepackage{microtype}                                              % Permite la modificación de los caracteres.
+
+% ----- Figuras y tablas ----- 
+\usepackage{fancyhdr}                           % Permite formatear las cabeceras, pies, enumeración, etc.
+\usepackage{subfiles}                           % Para agregar los capítulos que se escriben aparte.
+\usepackage{array}                              % Para ordenar texto y ecuaciones.
+\usepackage[rightcaption]{sidecap}              % Permite agregar texto lateral
+\usepackage{wrapfig}                            % Permite poner figuras con texto al rededor.
+\usepackage{float}                              % Permite poner figuras en cualquier lugar.
+\usepackage[labelfont=bf]{caption}              % Texto en negrita para descripciones (\caption)
+\usepackage[para]{threeparttable}               % Tablas vistosas, mirar antes de utilizar.
+\usepackage{url}                                % Permite el uso de enlaces URL.
+\usepackage[table,xcdraw,dvipsnames]{xcolor}    % Agranda la cantidad de colores.
+\usepackage{makecell}                           % Ayuda en la creación de tablas
+\usepackage{hhline}                             % Agranda las opciones de las líneas
+\usepackage{textcomp}                           % Símbolo de derechos de autor
+\usepackage{natbib}                                                     % Ambiente de referencias utilizado.
+\bibliographystyle{apalike}                                                 % Estilo de referencias APA.
+\def\biblio{\clearpage\bibliographystyle{apalike}\bibliography{References}} % Define el comando \biblio para referencias en subarchivos- NO CAMBIAR
+% ----- Cabecera y pies -----
+\pagestyle{fancy}                           % Se define el estilo fancy
+\fancyhead[RO,LE]{\thepage}                 % Número de página en la izquierda para par y derecha para impar
+\fancyhead[RE,LO]{\nouppercase{\rightmark}} % Nombre del capítulo en la derecha para par y la izquierda para impar en la cabecera
+%\renewcommand{\headrulewidth}{0pt}         % Cambiar para línea más gruesa
+\fancyfoot{}                                % Saca el número de la página abajo.
+
+\fancypagestyle{plain}{                     % Se redefine el estilo automático (plain) para que calce con el resto. En particular la 1ra página de cada capítulo
+\fancyhf{}                                  % Elimina la cabecera y los pies
+\fancyhead[RO,LE]{\thepage}                 % Número de página en la izquierda para par y derecha para impar
+\fancyhead[RE,LO]{\nouppercase{\leftmark}}  % Nombre del capítulo en la derecha para par y la izquierda para impar en la cabecera
+%\renewcommand{\headrulewidth}{0pt}         % Cambiar para línea más gruesa
+\fancyfoot{}                                % Elimina el número de la página abajo
+}
+
+
+\fancypagestyle{resumen}{                   % Se redefine el estilo resumen para que calce con el resto. 
+\fancyhf{}                                  % Elimina la cabecera y los pies
+\fancyhead[RO,LE]{\thepage}                 % Número de página en la izquierda para par y derecha para impar
+\fancyhead[RE,LO]{\nouppercase{Resumen}}    % Nombre del capítulo en la derecha para par y la izquierda para impar en la cabecera
+%\renewcommand{\headrulewidth}{0pt}         % Cambiar para línea más gruesa
+\fancyfoot{}                                % Elimina el número de la página abajo
+}
+
+\fancypagestyle{abstract}{                  % Se redefine el estilo resumen para que calce con el resto. 
+\fancyhf{}                                  % Elimina la cabecera y los pies
+\fancyhead[RO,LE]{\thepage}                 % Número de página en la izquierda para par y derecha para impar
+\fancyhead[RE,LO]{\nouppercase{Abstract}}   % Nombre del capítulo en la derecha para par y la izquierda para impar en la cabecera
+%\renewcommand{\headrulewidth}{0pt}         % Cambiar para línea más gruesa
+\fancyfoot{}                                % Elimina el número de la página abajo
+}
+
+\fancypagestyle{agradecimientos}{                   % Se redefine el estilo resumen para que calce con el resto. 
+\fancyhf{}                                          % Elimina la cabecera y los pies
+\fancyhead[RO,LE]{\thepage}                         % Número de página en la izquierda para par y derecha para impar
+\fancyhead[RE,LO]{\nouppercase{Agradecimientos}}    % Nombre del capítulo en la derecha para par y la izquierda para impar en la cabecera
+%\renewcommand{\headrulewidth}{0pt}                 % Cambiar para línea más gruesa
+\fancyfoot{}                                        % Elimina el número de la página abajo
+}
+
+% ----- Cabecera de la portada ----- 
+\fancypagestyle{frontpage}{             % Se define el estilo frontpage.
+	\fancyhf{}                          % Elimina la cabecera y los pies
+	\renewcommand{\headrulewidth}{0pt}  % Elimina líneas en cabecera
+	\renewcommand{\footrulewidth}{0pt}  % Elimina líneas en pies
+	\vspace*{1\baselineskip}
+	
+	\fancyhead[R]{UNIVERSIDAD DE CONCEPCIÓN                        % Línea 1 de la cabecera derecha, debe ir el nombre de la UdeC en mayúsculas.
+	\linebreak       FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS}   % Línea 2 de la cabecera derecha, debe ir el nombre de la facultad en mayúsculas.
+	\fancyhead[L]{ \includegraphics[width=0.7in]{escudo_udec.png}} % LOGO que irá en la cabecera izquierda.
+}
+
+% ----- Enlaces clickeables --------
+\usepackage{hyperref}   % Permite que todo el documento sea clickeable.
+\newcommand\myshade{85} % Permite la redefinición de colores a gusto del usuario
+
+% Para elegir colores propios mirar los nombres relacionados con dvipsnames, aquí un url con los nombres de dvipsnames: https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX
+
+\colorlet{mylinkcolor}{DarkOrchid}   % Define Color de los enlaces clickeables internos (índice, referencias cruzadas, etc.). En este caso DarkOrchid
+\colorlet{mycitecolor}{YellowOrange} % Define Color de las citas ubicadas en las referencias. En este caso YellowOrange
+\colorlet{myurlcolor}{Aquamarine}    % Define Color de los enlaces url. En este caso Aquamarine
+
+% Para dejar el documento sin texto en colores cambiar las tres líneas anteriores a Black.
+
+\hypersetup{  %Define la forma en que se verán las cosas clickeables.
+  	linkcolor  = mylinkcolor!\myshade!black,    % Aplica el color definido arriba. En este caso DarkOrchid
+  	citecolor  = mycitecolor!\myshade!black,    % Aplica el color definido arriba. En este caso YellowOrange
+  	urlcolor   = myurlcolor!\myshade!black,     % Aplica el color definido arriba. En este caso Aquamarine
+  	colorlinks = true,                          % Elimina las cajas al rededor de lo clickeable y lo reemplaza por palabras a color.
+}
+
+\begin{document}
+\def\biblio{}   % Resetea el comando biblio, de lo contrario una lista de referencias será producida después de cada capítulo
+                % resets the biblio command, if not here a new reference list will be produced after every chapter
+
+\include{Otros/Portada}   % Genera la portada desde el archivo Portada.tex . Para editar este archivo ir a Otros -> Portada.tex
+\vfill
+
+%----------------Página de derechos de autor: elegir entre a) o b) y borrar/comentar la opción NO utilizada-----------------
+\thispagestyle{empty}
+\mbox{}                         % Ayuda a bajar el texto
+\vfill                          % Deja el texto al fondo
+\textcopyright\ 2024, Lucas Pulgar Escobar \\ % Derechos de autor
+
+Reproduction in part or in total, for academic purposes, by any means or process, including the bibliographic citation of the document, is authorized.
+\vspace{1cm}    % lo separa del fondo
+\restoregeometry % Devuelve los márgenes después de la portada
+
+%----------------Página de dedicatoria (opcional), descomentar para generar ---------------------------------
+
+% Editar en Otros -> Dedicatoria.tex
+
+\include{Otros/Dedicatoria}   % Genera la pagina de calificaciones del archivo calificaciones.tex
+\restoregeometry        % Devuelve los márgenes después de la página
+
+
+%-----------------Página de agradecimientos (opcional), se incluye normalmente-------------------
+
+% Editar en Otros -> Agradecimientos.
+
+\pagenumbering{roman}                            % Empieza la enumeración romana en minúsculas, para mayúsculas usar Roman.
+\newpage
+\addcontentsline{toc}{chapter}{AGRADECIMIENTOS}  % Agrega esta sección al índice
+\section*{AGRADECIMIENTOS}                       % Debe ir en mayúsculas por reglamento de la UdeC, tiene asterisco para no ser numerada.
+    \subfile{Otros/Agradecimientos}              % Llama al archivo Agradecimientos en la carpeta Otros.
+
+
+%-----------------Página de resumen (abstract)-------------
+
+% Si la unidad académica lo requiere, se edita en  Otros -> Resumen.tex . El mismo resumen puede ser incluido en inglés (abstract) en la página siguiente, para agregarlo hay un espacio destinado en el mismo archivo antes mencionado.
+
+\newpage
+\addcontentsline{toc}{chapter}{Resumen} % Agrega esta sección al índice
+\section*{Resumen}                      % Con asterisco para que no sea numerada.
+    \subfile{Otros/Resumen}             % Llama al archivo Resumen en la carpeta Otros.
+
+%--------------Página de índice.  
+
+%\nocite{*}     % Des-comentar si se desea que TODAS las referencias sean impresas en la lista de referencias, incluyendo las que no fueron finalmente citadas en el texto.
+
+\newpage
+{\setstretch{1.0}   % Interlineado de la lista.
+\tableofcontents
+}
+
+\newpage
+{\setstretch{1.0} 
+\listoftables}
+
+\newpage
+{\setstretch{1.0} 
+\listoffigures}
+
+
+\newpage
+\addtocontents{toc}{\protect\setcounter{tocdepth}{4}}   % La profundidad del índice queda en 4, 1.1.1.1
+\pagenumbering{arabic}                                  % Comienza la numeración arábiga (números normales)
+\setcounter{page}{1}                                    % Comienza el contador de páginas en 1
+
+% A continuación se dejan nombres de diversos capítulos o secciones, para cambiar el nombre del archivo tan solo se debe hacer en la carpeta "capitulos" y luego llamarlos de la forma correcta en "\subfile{Capitulos/nuevonombre}".
+% Los nombres de los archivos no pueden llevar tíldes ni espacios para el correcto funcionamiento del compilador, esto no tiene nada que ver con que tengan o no tilde en el documento final.
+
+\chapter{Introducción}                      % Nombre de section/chapter, este si usa tilde y es lo que se verá impreso
+    \subfile{Capitulos/01Introduccion}      % Incluye el subarchivo del section/chapter 
+\clearpage                                  % limpia la página luego de que el capítulo concluya.
+
+\chapter{Marco Teórico}
+    \subfile{Capitulos/02MarcoTeorico}
+\clearpage
+
+\chapter{Metodología}
+    \subfile{Capitulos/03Metodologia}
+\clearpage
+  
+\chapter{Análisis}
+    \subfile{Capitulos/04Analisis}
+\clearpage
+
+\chapter{Discusión}
+    \subfile{Capitulos/05Discusion}
+\clearpage
+
+\chapter{Conclusión}
+    \subfile{Capitulos/06Conclusion}
+\clearpage
+
+\newpage
+\renewcommand\refname{Referencias}          % Nombre para la lista de referencias, también se utiliza "Bibliografía"
+{\setstretch{1.0}                           % Interlineado de las referencias 
+\addcontentsline{toc}{chapter}{Referencias} % Cambia el nombre de la lista de referencias en el índice 
+\bibliography{Referencias.bib}              % Agrega las referencias al documento, estas se ubican en el archivo Referencias.bib
+}
+
+\newpage
+\renewcommand{\appendixpagename}{Apéndices}     % Nombre al inicio.
+\addcontentsline{toc}{chapter}{Apéndices}       % Agrega "Apéndices" al índice
+
+\appendix   % Empieza el ambiente de apéndices, desde ahora en adelante los capítulos, secciones, tablas, figuras, etc. vuelven a empezar su numeración
+
+\chapter{Test}                      % Nombre del apéndice, el capítulo será "Apéndice A" en vez de "Capítulo 1"
+    \subfile{Capitulos/Apendice}    % Llama al archivo apéndice
+\clearpage
+
+% Este segundo apéndice tiene información general sobre LaTeX. Está comentado para que no aparezca en tu documento, pero si lo deseas puedes descomentarlo para ver su contenido.
+
+%\chapter{Algunos consejos sobre \LaTeX{}}
+%    \subfile{Otros/Consejos}
+%\clearpage
+
+% ÉXITO EN TU TESIS
+
+\end{document} 

@@ -1,0 +1,33 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+
+% Las siguientes líneas están para que la numeración en el apéndice sea correcta - NO CAMBIAR.
+% Usar estas en caso de utilizar la clase book, de lo contrario comentar
+\renewcommand{\thesection}{A\arabic{section}}
+\renewcommand{\thetable}{A\arabic{section}.\arabic{table}}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+% Usar estas en caso de utilizar cualquier clase que NO SEA book.
+%\renewcommand{\thesubsection}{A\arabic{subsection}}
+%\renewcommand{\thetable}{A\arabic{subsection}.\arabic{table}}
+%\counterwithin{table}{subsection}
+%\counterwithin{figure}{subsection}
+
+%---------- Escribir desde aquí en adelante
+
+
+\section{hola}
+Hola
+
+\section{Logo Universidad de Concepción}
+\begin{figure}[h]
+    \centering
+\caption{UdeC logo}
+    \includegraphics[width=0.2\columnwidth]{Images/escudo_udec.png}
+    \label{fig_logo2}
+\end{figure}
+
+
+\biblio %Se necesita para referenciar cuando se compilan subarchivos individuales - NO SACAR
+\end{document}

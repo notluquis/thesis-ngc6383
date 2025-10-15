@@ -1,0 +1,179 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+
+
+% Las siguientes líneas están para que la numeración en el apéndice sea correcta - NO CAMBIAR.
+% Usar estas en caso de utilizar la clase book, de lo contrario comentar
+\renewcommand{\thesection}{A\arabic{section}}
+\renewcommand{\thetable}{A\arabic{section}.\arabic{table}}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+% Usar estas en caso de utilizar cualquier clase que NO SEA book.
+%\renewcommand{\thesubsection}{A\arabic{subsection}}
+%\renewcommand{\thetable}{A\arabic{subsection}.\arabic{table}}
+%\counterwithin{table}{subsection}
+%\counterwithin{figure}{subsection}
+
+%---------- Escribir desde aquí en adelante
+
+
+\definecolor{lightgray}{RGB}{247,247,247} % Color definido a medida
+
+Estas son solo algunas notas para ayudarte a empezar con un proyecto de \LaTeX{}. La idea detrás de esta template es entregarte un buen putno de partida para que puedas hacer tu tesis o reporte. En \LaTeX{} se pueden hacer muchísimas cosas, casi todo lo que se te ocurra. Si eres nuevo en este programa aquí te dejo un link introductorio: \url{https://www.overleaf.com/learn/latex/Free_online_introduction_to_LaTeX_(part_1)}
+
+\section{Agregando capítulos y secciones}
+
+Para tener una buena mirada del documento, esta template está dividida en diferentes section/subfile donde cada una una de estas section/subfile representa un capítulo. Esto entrega la posibilidad de compilar una sección particular y es una agradable forma de estructurar el documento. Si deseas agregar nuevas secciones, simplemente es necesario hacer botón derecho en la carpeta \textit{Capitulos} y elegir \textit{New File}. En este archivo se agrega el siguiente código:
+
+\linespread{1} %interlineado
+\begin{minted}[
+bgcolor=lightgray,
+style=vs 
+]{latex}
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+
+% Escriba cosas aquí
+
+\biblio 
+\end{document}
+\end{minted} 
+\linespread{1.5} También se debe agregar el enlace a esta nueva sección a Main.tex. Esta sección será ordenada en el pdf final en el orden que se establezca en Main.tex. Aquí hay un ejemplo de como la section/subfile actúa y cómo es llamada de la carpeta \textit{Capitulos}. En este caso la section/subfile se llama \text{Hola.tex}
+
+\linespread{1} 
+\begin{minted}[
+bgcolor=lightgray,
+style=vs 
+]{latex}
+\section{Nombre de la sección}
+    \subfile{Capitulos/Hola}
+\end{minted} 
+
+\linespread{1.5}
+\subsection{Títulos y subsecciones}
+Para hacer el título dentro de una sección se usa el comando  \mintinline[bgcolor=lightgray,style=vs]{latex}{\subsection{Título aquí}}. Las subsecciones que se crean serán agregadas automáticamente al índice. Se pueden hacer diversos niveles de títulos usando \mintinline[bgcolor=lightgray,style=vs]{latex}{\subsubsection{}} o \mintinline[bgcolor=lightgray,style=vs]{latex}{\paragraph{}}. Los difrentes títulos serán marcados por X.1 para subsecciones, X.1.1 para subsubsecciones y X.1.1.1 para párrafos, donde X representa el capítulo.
+
+\subsection{Imágenes, tablas y ecuaciones.}
+
+Algunos ejemplos de como implementarlas en el documento:
+
+\subsubsection{Imágenes}
+
+Las figuras e imágenes se agregan utilizando el siguiente ambiente:
+
+\linespread{1}
+\begin{minted}[
+bgcolor=lightgray,
+style=vs 
+]{latex}
+\begin{figure}[H]
+    \centering
+    \caption{UdeC-logo}
+    \includegraphics[width=0.2\columnwidth]{Images/escudo_udec.png}
+    \label{fig_logo}
+\end{figure}
+\end{minted} 
+\linespread{1.5}El código de arriba producirá la figura \ref{fig_logo}. Se pueden usar muchos tipos de formatos aquí, incluyendo pdf, png, jpg, jpeg, etc. El texto puede ser escrito tanto arriba como abajo y dependerá de dónde se coloque el comando \mintinline[bgcolor=lightgray,style=vs]{latex}{\caption{}}. El comando \mintinline[bgcolor=lightgray,style=vs]{latex}{\label{}} debe estar ubicado después del texto y es usado para referenciar la figura en el documento con el comando \mintinline[bgcolor=lightgray,style=vs]{latex}{\ref{}}. La enumeración de las imágenes, tablas y ecuaciones cambiará de acuerdo al capítulo. E.g. Figura 3.1, Tabla 2.4, Ecuación 6.2. Cada uno de ellos tiene contadores distintos.
+
+\begin{figure}[H]
+    \centering
+    \caption{Escudo Universidad de Concepción}
+    \includegraphics[width=0.2\columnwidth]{Images/escudo_udec.png}
+    \label{fig_logo}
+\end{figure}
+
+Se recomienda poner todas las imágenes en la carpeta \textit{Images}, Así Overleaf puede rápidamente llegar a ellas.
+
+\subsubsection{Tablas}
+
+Las tablas pueden ser diseñadas a voluntad. Al igual que las figuras pueden ser referencias de forma directa cuando se les da un \textit{label}. Hay varios generadores de tablas \LaTeX{} en internet, por ejemplo \url{https://www.tablesgenerator.com/}, que funciona bastante bien. También hay un paquete en R llamado \textit{xtable} que transforma tablas de R a código \LaTeX{}. Esto puede ser muy útil y ahorrar bastante tiempo en caso de trabajar con R. El siguiente código produce la tabla \ref{tab_Variables}.
+
+\linespread{1}
+\begin{minted}[
+bgcolor=lightgray,
+style=vs 
+]{latex}
+\begin{table}[H]
+\centering
+\caption{Variables in datasett}
+\begin{tabular}{rr}
+  \hline
+  \hline
+ Variable name & Type of variable\\ 
+  \hline
+  Postal code & Categorical \\ 
+  Date of birth & Date \\ 
+  Municipality & Categorical \\ 
+  Type of car & Categorical\\ 
+  Registration date & Date \\ 
+  Sex & Categorical\\ 
+  Age &  Numerical \\ 
+   \hline
+   \hline
+   \label{tab_Variables}
+\end{tabular}
+\end{table}
+\end{minted} 
+\linespread{1.5}\begin{table}[H]
+\centering
+\caption{Variables in datasett}
+\begin{tabular}{rr}
+  \hline
+  \hline
+ Variable name & Type of variable\\ 
+  \hline
+  Postal code & Categorical \\ 
+  Date of birth & Date \\ 
+  Municipality & Categorical \\ 
+  Type of car & Categorical\\ 
+  Registration date & Date \\ 
+  Sex & Categorical\\ 
+  Age &  Numerical \\ 
+   \hline
+   \hline
+   \label{tab_Variables}
+\end{tabular}
+\end{table}
+
+\subsubsection{Ecuaciones}
+
+Las ecuaciones podrían ser un problema en muchos otros programas que crean documentos como Word o Google Docs. \LaTeX{} en cambio permite hacer esto de forma mucho más rápida. Al igual que las figuras y las tablas, estas se pueden referenciar con \textit{label} y se enumeran automáticamente cuando se usa un ambiente matemático. Sin embargo para escribir ecuaciones dentro del texto es mejor usar \$\$ en los extremos de la ecuación, por ejemplo: \mintinline[bgcolor=lightgray,style=vs]{latex}{$x+x=y$} producirá $x+x=y$.\\
+Aquí un ejemplo de ecuación numerada.
+\linespread{1}
+\begin{minted}[
+bgcolor=lightgray,
+style=vs 
+]{latex}
+\begin{equation} \label{equ:test}
+        \hat{f}(x) = \sum^B_{b=1}\lambda \hat{f}^b(x)
+\end{equation}
+\end{minted} 
+\linespread{1.5}\begin{equation} \label{equ:test}
+        \hat{f}(x) = \sum^B_{b=1}\lambda \hat{f}^b(x)
+\end{equation}
+
+\subsubsection{Apéndice}
+
+En el apéndice la numeración está cambiada. Cada subsección es un número estilo A1, A2, A3, etc. Las figuras, tablas y ecuaciones están numeradas de forma que calcen con este estilo: Figura A1.2, Tabla A3.4, etc.
+
+\subsection{Referencias}
+Referenciar en \LaTeX{} se puede hacer de muchas maneras, con gran variedad de paquetes. En esta template el paquete \textit{natbib} y el estilo \textit{apa} son usados. La mayoría de los paquetes de referencias tienen un arreglo similar. En el archivo Referencias.bib se pueden encontrar varios ejemplos de como agregar una fuente al documento. Luego de que las fuentes hayan sido agregadas al archivo .bib, se podrán citar en el texto usando diversos comandos. Se recomienda leer el siguiente link para más información relacionada con citar usanto natbib: \url{https://no.overleaf.com/learn/latex/Natbib_citation_styles}. Otro paquete común para referencias es \textit{biblatex}. Solo las fuentes que están citadas en el texto aparecerán en la lista de referencias. Se puede usar el comando llamado nocite para mostrar todas las referencias en el archivo .bib, incluso las que no están citadas en el texto. Si puedes encontrar la fuente en Google Scholar, se puede conseguir el código \LaTeX{} listo para agregar la fuente al archivo .bib de forma directa. Esto se logra al clickear el botón de citación y eligiendo \textit{bibtex} en Google Scholar.
+
+\subsection{Algunas notas útiles}
+
+Para comentar en \LaTeX{} se debe agregar un símbolo de porcentaje en frente de lo que se desea comentar. Solamente esa línea específica se convertirá en comentario y por lo tanto no será leída por el programa. Si se desea poner un símbolo de porcentaje real como parte del texto se deberá hacer con un \textit{backslash} antes del símbolo: \textbackslash\%. Lo mismo se debe hacer para los signos de dinero \textbackslash\$.
+
+El texto en cursiva o en negrita se puede obtener con ctrl+i o ctrl+b respectivamente (para Mac reemplazar ctrl por cmd).
+
+Todas las \textit{labels} deben ser únicas, de lo contrario el compilador no sabrá qué citar. 
+ El comadno \mintinline[bgcolor=lightgray,style=vs]{latex}{\ref{NombreDelLabel}} producirá el número de la figura/tabla/ecuación y el comando \mintinline[bgcolor=lightgray,style=vs]{latex}{\pageref{NombreDelLabel}} producirá el número de página en la que se ubica la figura/tabla/ecuación.
+
+Hay un montón de fuentes en internet donde se pueden encontrar respuestas a prácticamente todas las preguntas de \LaTeX{}. Viva Google!
+
+Finalmente, éxito en tu Tesis!
+\end{document}
+
+
+\biblio %Se necesita para referenciar cuando se compilan subarchivos individuales - NO SACAR
+\end{document}
