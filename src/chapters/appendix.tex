@@ -26,7 +26,7 @@ WHERE 1 = CONTAINS(
 
 \subsection{Astrometric/photometric quality filters}
 \label{app:data:quality}
-The raw result set was filtered using the following criteria (thresholds and motivations summarised in Sec.~\ref{sec:methodology}):
+The raw result set was filtered using the following criteria (thresholds and motivations summarised in Sec.~\ref{sec:data-methodology}):
 \begin{itemize}
   \item \textbf{Duplicated solutions:} \verb|duplicated_source = FALSE|.
   \item \textbf{Visibility periods:} \verb|visibility_periods_used >= 8|.
@@ -63,7 +63,7 @@ For completeness we also retained the EDR3 transfer mapping when needed (e.g. fo
 \label{app:data:subsets}
 \begin{itemize}
   \item \textbf{HDBSCAN input:} finite $(\mu_{\alpha*},\mu_\delta)$ and their errors; no S/N cut on parallax to avoid biasing the cluster kinematics.
-  \item \textbf{Distance-inference subset:} \verb|parallax_over_error > 10| and no RUWE/photometry flags violated (Sec.~\ref{sec:methodology}).
+  \item \textbf{Distance-inference subset:} \verb|parallax_over_error > 10| and no RUWE/photometry flags violated (Sec.~\ref{sec:data-methodology}).
   \item \textbf{CMD/ASteCA:} valid $G$, $G_{\rm BP}$, $G_{\rm RP}$ and any available 2MASS $JHK_s$; colour-excess factor within the DR3 locus.
 \end{itemize}
 
