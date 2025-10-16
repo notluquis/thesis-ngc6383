@@ -19,6 +19,7 @@
 *.pdfsync
 *.run.xml
 texput.log
+*.bak*
 
 ## Bibliography and index files
 *.bbl
@@ -57,6 +58,8 @@ texput.log
 *.pdf
 *.ps
 *.eps
+build/
 
 ## Editor or OS artifacts
 .DS_Store
+.vscode/

@@ -1,0 +1,58 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Background and literature review}
+\label{chap:background}
+
+\subsection{Background and literature review}
+\label{subsec:background}
+
+This chapter summarises the theoretical framework and observational advances that underpin the analysis of NGC~6383. It reviews membership determination in the \texorpdfstring{\textit{Gaia}}{Gaia} era, structural and dynamical diagnostics, strategies for identifying pre–main-sequence (PMS) and young stellar objects (YSOs), and Bayesian methods for inferring cluster parameters.
+
+\subsubsection{Membership determination in the \texorpdfstring{\textit{Gaia}}{Gaia} era}
+\label{subsubsec:membership-gaia}
+
+Cluster membership has progressed from photographic proper-motion diagrams and simple photometric cuts to multi-dimensional statistical classifiers. Modern approaches include:
+\begin{itemize}
+  \item \textbf{Classical kinematic selections}: vector-point diagrams and radial-velocity thresholds; useful for bright stars but susceptible to field contamination when used alone.
+  \item \textbf{Density-based clustering}: e.g. DBSCAN/HDBSCAN on $(\mu_{\alpha*},\mu_\delta,\varpi)$; HDBSCAN yields stability scores that map to membership probabilities and handles heteroscedastic errors and irregular morphologies.
+  \item \textbf{Model-based classifiers}: Gaussian Mixture Models, hierarchical Bayesian mixtures, and ML ensembles (random forests, neural nets) that jointly describe cluster and field, enabling principled decontamination and uncertainty propagation.
+\end{itemize}
+Large DR2/DR3 catalogues show that combining density-based selection with probabilistic refinement achieves high completeness with low contamination—an approach adopted in this thesis.
+
+\subsubsection{Cluster structure and dynamical diagnostics}
+\label{subsubsec:structure-dynamics}
+
+The spatial distribution of confirmed members encodes the cluster’s dynamical state. Key quantities are:
+\begin{description}
+  \item[Core radius $R_c$:] central scale length of the surface-density profile.
+  \item[Tidal radius $R_t$:] outer limit set by the Galactic tidal field.
+  \item[Half-light / half-mass radii:] radii enclosing half of the integrated luminosity / stellar mass.
+  \item[Concentration $C$:] typically $\log(R_t/R_c)$ for comparative studies.
+\end{description}
+Fitting King profiles to binned surface densities recovers these parameters while accounting for a constant background. Comparing cluster age to dynamical timescales—especially the two-body relaxation time—helps discriminate primordial mass segregation from dynamical evolution; $N$-body work shows young clusters can inherit segregation from their birth environment.
+
+\subsubsection{Pre–main-sequence stars and young stellar objects}
+\label{subsubsec:pms-ysos}
+
+Young clusters contain rich PMS/YSO populations that trace recent star formation:
+\begin{itemize}
+  \item \textbf{CMD diagnostics}: PMS loci above the ZAMS in optical/IR CMDs; apparent spreads reflect age dispersion, differential extinction, binarity, or accretion variability.
+  \item \textbf{Spectroscopic youth indicators}: H$\alpha$ emission, strong Li\,I $\lambda$6708, and veiling; powerful but observationally demanding.
+  \item \textbf{Machine-learning classifiers}: e.g. \textsc{Sagitta}, combining \textit{Gaia}+2MASS to assign PMS probabilities, ages, and $A_V$.
+  \item \textbf{IR-excess diagnostics}: colour–colour cuts and reddening-free indices to flag disks and accreting YSOs; the disk fraction $Y_{\text{frac}}$ serves as a youth proxy.
+\end{itemize}
+
+\subsubsection{Bayesian inference of cluster parameters} 
+\label{subsubsec:bayesian-inference}
+
+Bayesian techniques provide precise, transparent inference under heterogeneous uncertainties:
+\begin{itemize}
+  \item \textbf{Bayesian distances}: combining parallaxes with physically motivated priors (e.g. exponentially decreasing space density) to mitigate bias from noisy/negative parallaxes.
+  \item \textbf{Isochrone fitting (MCMC/ABC)}: posterior estimates for age, extinction, distance modulus, and metallicity with rigorous uncertainties.
+  \item \textbf{Hierarchical modelling}: joint cluster+field models that capture intrinsic scatter, selection effects, and measurement noise, yielding self-consistent membership and parameters.
+\end{itemize}
+We build on tools such as \textsc{ASteCA}, \textsc{BASE-9}, and custom \textsc{PyMC} pipelines to deliver reproducible inference for NGC~6383.
+
+\biblio
+\end{document}

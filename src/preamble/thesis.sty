@@ -1,0 +1,110 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{preamble/thesis}[2024/04/06 Thesis preamble helpers]
+
+% Encoding, language, and typography
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{textcomp}
+\RequirePackage[english]{babel}
+\RequirePackage{microtype}
+
+% Page layout and spacing
+\RequirePackage[left=4cm,top=4cm,bottom=2.5cm,right=2.5cm]{geometry}
+\RequirePackage{setspace}
+\RequirePackage{parskip}
+\RequirePackage{titlesec}
+\setstretch{1.3}
+\setcounter{secnumdepth}{4}
+\hyphenpenalty=100000
+\sloppy
+\raggedbottom
+
+% Graphics, figures, and tables
+\RequirePackage[table,xcdraw,dvipsnames]{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{adjustbox}
+\RequirePackage{float}
+\RequirePackage{wrapfig}
+\RequirePackage[rightcaption]{sidecap}
+\RequirePackage[labelfont=bf]{caption}
+\RequirePackage{subcaption}
+\RequirePackage{array}
+\RequirePackage{multirow}
+\RequirePackage{makecell}
+\RequirePackage{hhline}
+\RequirePackage[para]{threeparttable}
+\RequirePackage{booktabs}
+\graphicspath{{figures/}{../figures/}}
+
+% Mathematics and counters
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{chngcntr}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+\numberwithin{equation}{section}
+
+% Document structure and cross references
+\RequirePackage{subfiles}
+\RequirePackage[toc,page]{appendix}
+\RequirePackage{xparse}
+\RequirePackage{nameref}
+\RequirePackage[bottom,hang,flushmargin]{footmisc}
+\interfootnotelinepenalty=10000
+\RequirePackage{fancyhdr}
+\newcommand{\ion}[2]{\ensuremath{\mathrm{#1\,\textsc{#2}}}}
+
+% Hyperlinks and auxiliary content
+\RequirePackage{url}
+\RequirePackage{hyperref}
+\urlstyle{sf}
+\RequirePackage{lipsum}
+
+% Bibliography support
+\RequirePackage{natbib}
+\newcommand{\biblio}{%
+  \clearpage%
+  \bibliographystyle{apalike}%
+  \bibliography{cites}%
+}
+
+% Listings fallback when minted is unavailable
+\RequirePackage{listings}
+\RequirePackage{environ}
+\lstdefinestyle{thesisListing}{%
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numbersep=5pt,
+  showstringspaces=false,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{red}%
+}
+\lstset{style=thesisListing}
+
+\NewEnviron{minted}[1]{%
+  \lstset{style=thesisListing, language=#1}%
+  \begin{lstlisting}
+\BODY
+  \end{lstlisting}
+}
+
+% Basic journal macro fallbacks (ADS-style)
+\providecommand{\apj}{ApJ}
+\providecommand{\apjs}{ApJS}
+\providecommand{\apjl}{ApJL}
+\providecommand{\aap}{A\&A}
+\providecommand{\aapr}{A\&ARv}
+\providecommand{\aaps}{A\&AS}
+\providecommand{\mnras}{MNRAS}
+\providecommand{\nat}{Nature}
+\providecommand{\aj}{AJ}
+\providecommand{\pasp}{PASP}
+\providecommand{\araa}{ARA\&A}
+\providecommand{\pasj}{PASJ}
+\providecommand{\pasa}{PASA}
+\providecommand{\aanda}{A\&A}
+\providecommand{\apss}{Ap\&SS}

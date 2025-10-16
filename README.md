@@ -32,13 +32,43 @@ The work combines **Bayesian inference**, **machine-learning clustering**, and *
 
 ## 🖥️ Repository Structure
 
-- /Figures/           → Plots, CMDs, density profiles, diagrams
-- /Scripts/           → Python scripts and Jupyter notebooks (COSMIC utilities)
-- /main.tex           → Main LaTeX file for thesis compilation
-- /references.bib     → Bibliography (A&A format)
-- /LICENSE             → License for code (MIT)
-- /LICENSE_thesis      → License for text and figures (All Rights Reserved)
-- /README.md           → Project description
+```
+.
+├── src/
+│   ├── main.tex          # Entry point for the thesis
+│   ├── cites.bib         # Bibliography database (apalike format)
+│   ├── chapters/         # Chapter subfiles
+│   ├── frontmatter/      # Title page, abstract, dedication, etc.
+│   ├── preamble/         # Shared packages, metadata, and front-matter helpers
+│   └── figures/          # Figures and graphics
+├── build/                # LaTeX outputs (PDF, aux, log — gitignored)
+├── Makefile              # latexmk wrapper for reproducible builds
+├── LICENSE               # MIT License for code and analysis
+└── README.md             # Project overview
+```
+
+The legacy Spanish-named folders (`Capítulos/`, `Otros/`, `Images/`) and root-level LaTeX files were migrated into the `src/` hierarchy to keep the project portable and fully English. Shared LaTeX configuration now lives under `src/preamble/` so you can reuse the setup across chapters or derivative documents.
+
+### 🛠️ Build Instructions
+
+Install `latexmk` (TeX Live or MacTeX include it by default) and run:
+
+```bash
+make          # Builds build/thesis.pdf
+make watch    # Continuous compilation (latexmk -pvc)
+make clean    # Remove auxiliary files under build/
+```
+
+All intermediate files and the final PDF live under `build/`, which is ignored by git.
+
+---
+
+### 🧩 Configuration
+
+- Edit thesis metadata (title, advisor, dates, etc.) in `src/preamble/metadata.tex`; changes propagate to the title and grading pages automatically.
+- Adjust packages, counters, or global layout via `src/preamble/thesis.sty`.
+- Customise headers, hyperlink colours, and other page styles in `src/preamble/page_styles.tex`.
+- Reorder or tweak the licence/dedication/acknowledgements flow inside `src/preamble/frontmatter_macros.tex`.
 
 ---
 

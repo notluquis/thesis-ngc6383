@@ -1,0 +1,27 @@
+\newcommand{\thesisLicensePage}{%
+  \thispagestyle{empty}%
+  \mbox{}%
+  \vfill%
+  \noindent\textcopyright\ \ThesisYear, \ThesisAuthor\\[0.5\baselineskip]%
+  \ThesisLicenseText%
+  \vspace{1cm}%
+  \restoregeometry%
+}
+
+\newcommand{\thesisDedicationPage}{%
+  \include{frontmatter/dedication}%
+}
+
+\newcommand{\thesisAcknowledgementsPage}{%
+  \newpage%
+  \addcontentsline{toc}{chapter}{ACKNOWLEDGEMENTS}%
+  \section*{ACKNOWLEDGEMENTS}%
+  \subfile{frontmatter/acknowledgements}%
+}
+
+\newcommand{\thesisAbstractPage}{%
+  \newpage%
+  \addcontentsline{toc}{chapter}{Abstract}%
+  \section*{Abstract}%
+  \subfile{frontmatter/abstract}%
+}

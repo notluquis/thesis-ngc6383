@@ -1,0 +1,44 @@
+\begin{titlepage}
+
+	\newgeometry{top=1 in, bottom=1 in, left=1 in, right= 1 in}
+
+	\newlength{\savedheadheight}
+	\setlength{\savedheadheight}{\headheight}
+	\newlength{\savedtopmargin}
+	\setlength{\savedtopmargin}{\topmargin}
+	\setlength{\headheight}{60pt}
+	\addtolength{\topmargin}{-45pt}
+
+	\thispagestyle{frontpage}
+
+	\begin{center}
+
+		\vspace*{4\baselineskip}
+
+
+		{\Huge \textbf{\ThesisTitle\\}}% Do not abbreviate, underline, or quote—full uppercase
+		\vspace*{1.5\baselineskip}
+
+		\large{\textbf{By: \ThesisAuthor}}\\ % Use the official academic record
+
+		\vspace{1.5\baselineskip}
+
+		\large{Thesis presented to the \ThesisFaculty\ of the \ThesisUniversity\ in partial fulfilment of the requirements for the degree of \ThesisDegree.} % Adapt to the correct degree title 
+
+		\vspace{1.5\baselineskip}
+		\ThesisMonth\ \ThesisYear\\ % Month and year (capitalise only the first letter)
+		\ThesisLocation % City and country of publication
+		\vspace{1.5\baselineskip}
+
+		\large{\textbf{Advisor: \ThesisAdvisor}}\\ % Include only the main advisor on the cover; committee members go on the grading page
+
+	\end{center}
+
+	\vspace*{4\baselineskip}
+
+	% The header for this page is configured in main.tex under the frontpage style
+
+	\setlength{\headheight}{\savedheadheight}
+	\setlength{\topmargin}{\savedtopmargin}
+
+\end{titlepage}

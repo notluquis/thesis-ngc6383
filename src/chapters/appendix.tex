@@ -1,0 +1,219 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+% ===== Appendix numbering =====
+\renewcommand{\thesection}{A\arabic{section}}
+\renewcommand{\thetable}{A\arabic{section}.\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{section}.\arabic{figure}}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+\section{Gaia query and data processing details}
+\label{app:data}
+
+This appendix records the exact \textit{Gaia}~DR3 query, quality controls, cross-match steps, and downstream cleaning used in this work so the data pull can be fully reproduced.
+
+\subsection{ADQL cone search}
+We queried \texttt{gaiadr3.gaia\_source} with a circular footprint of radius $0.6667^{\circ}$ centred on $(\alpha,\delta)=(263.7^{\circ},-32.58^{\circ})$:
+\begin{verbatim}
+SELECT *
+FROM gaiadr3.gaia_source
+WHERE 1 = CONTAINS(
+  POINT('ICRS', ra, dec),
+  CIRCLE('ICRS', 263.7, -32.58, 0.6667)
+);
+\end{verbatim}
+
+\subsection{Astrometric/photometric quality filters}
+\label{app:data:quality}
+The raw result set was filtered using the following criteria (thresholds and motivations summarised in Sec.~\ref{sec:methodology}):
+\begin{itemize}
+  \item \textbf{Duplicated solutions:} \verb|duplicated_source = FALSE|.
+  \item \textbf{Visibility periods:} \verb|visibility_periods_used >= 8|.
+  \item \textbf{Astrometric goodness:} RUWE $< 1.4$.
+  \item \textbf{Astrometric fidelity:} \verb|astrometric_params_solved > 3| and the neural-network fidelity metric $>0.5$ (as in \citealt{2022MNRAS.510.2597R}).
+  \item \textbf{Parallax signal-to-noise:} \verb|parallax_over_error > 10| for the subset used in distance inference (all sources retained for membership pre-filtering; see Fig.~\ref{fig:parallax_distance}).
+  \item \textbf{Proper-motion sanity:} finite \verb|pmra|, \verb|pmdec|, \verb|pmra_error|, \verb|pmdec_error| and \verb|sqrt(pmra^2 + pmdec^2) < 50 mas/yr|.
+  \item \textbf{Colour–excess factor:} \verb|phot_bp_rp_excess_factor| in the recommended magnitude-dependent locus for DR3 (cf. \citealt{2021A&A...649A...3R}).
+\end{itemize}
+
+\subsection{Catalogue joins and cross-matches}
+\label{app:data:xmatch}
+Near-infrared photometry was attached from 2MASS using the DR3 pre-computed neighbour table:
+\begin{itemize}
+  \item Table: \verb|gaiadr3.tmass_psc_xsc_best_neighbour|.
+  \item Join key: \verb|source_id| $\rightarrow$ \verb|gaia_source.source_id|.
+  \item Maximum separation: $0.3''$ (rows with larger separations discarded).
+  \item Join type: left join (keep all \textit{Gaia} sources; append available 2MASS).
+\end{itemize}
+
+For completeness we also retained the EDR3 transfer mapping when needed (e.g. for legacy flags):
+\begin{itemize}
+  \item Table: \verb|gaiadr3.dr2_neighbourhood| (only when DR2/EDR3 fields were explicitly required).
+\end{itemize}
+
+\subsection{Catalogue-level calibrations}
+\label{app:data:cals}
+\begin{itemize}
+  \item \textbf{Parallax zeropoint:} applied source-by-source using \texttt{gaiadr3\_zeropoint} with $(G,\,\nu_{\rm eff},\,\beta)$ inputs (cf. \citealt{2021A&A...649A...2L}).
+  \item \textbf{Bright-star PM frame correction:} for $11\le G < 13$ we applied the magnitude-dependent correction of \cite{2021A&A...649A.124C} (up to $\sim 80~\mu$as\,yr$^{-1}$).
+\end{itemize}
+
+\subsection{Filtering for analysis subsets}
+\label{app:data:subsets}
+\begin{itemize}
+  \item \textbf{HDBSCAN input:} finite $(\mu_{\alpha*},\mu_\delta)$ and their errors; no S/N cut on parallax to avoid biasing the cluster kinematics.
+  \item \textbf{Distance-inference subset:} \verb|parallax_over_error > 10| and no RUWE/photometry flags violated (Sec.~\ref{sec:methodology}).
+  \item \textbf{CMD/ASteCA:} valid $G$, $G_{\rm BP}$, $G_{\rm RP}$ and any available 2MASS $JHK_s$; colour-excess factor within the DR3 locus.
+\end{itemize}
+
+\subsection{Reproducible data dump}
+All intermediate tables (CSV/Parquet) are archived under \verb|data/| with a machine-readable \verb|.yaml| sidecar recording query time, ADQL, row counts before/after each filter, and git commit hash (see App.~\ref{app:repro}).
+
+\section{Supplementary figures and tables}
+\label{app:figures}
+
+This section hosts extended material referenced in the main text. Filenames correspond to those in \verb|Figures/|; figure captions restate essential context to be self-contained.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\hsize]{Figures/min_cluster_size.pdf}
+  \caption{HDBSCAN cluster size vs.\ minimum cluster size. The dashed line marks the adopted value.}
+  \label{fig:app_minclsize}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\hsize]{Figures/condensed_cluster_tree_NGC6383.pdf}
+  \caption{Condensed cluster tree from HDBSCAN. Branch width encodes population; colours encode $\lambda$.}
+  \label{fig:app_cct}
+\end{figure}
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/plot_pair_trace.pdf}
+  \caption{Corner plot of the ASteCA posterior for $(A_V,\,{\rm DM},\,\log{\rm age},\,Z)$. Black lines mark the modes.}
+  \label{fig:app_corner}
+\end{figure*}
+
+\begin{table*}[h]
+  \centering
+  \caption{Radial surface-density profile (equiprobable annuli). Columns: inner/outer radius, area, counts, surface density, uncertainty.}
+  \label{tab:app_rdp}
+  \begin{tabular}{cccccc}
+    \toprule
+    $R_{\rm in}$ (arcmin) & $R_{\rm out}$ (arcmin) & Area (arcmin$^2$) & $N$ & $\Sigma$ (arcmin$^{-2}$) & $\sigma_\Sigma$ \\
+    \midrule
+    % (values to be inserted by your pipeline)
+    \multicolumn{6}{c}{Provided in the machine-readable supplement.}\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\begin{table*}[h]
+  \centering
+  \caption{Two-sample K--S tests used in mass/luminosity segregation analysis.}
+  \label{tab:app_ks}
+  \begin{tabular}{lcccc}
+    \toprule
+    Comparison & $D_{\rm KS}$ & $p$-value & $N_1$ & $N_2$\\
+    \midrule
+    \multicolumn{5}{c}{Provided in the machine-readable supplement.}\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\clearpage
+
+\section{Membership catalogue overview}
+\label{app:catalogue}
+
+A machine-readable catalogue (CSV and VOTable) accompanies this thesis. Each row corresponds to a candidate in the fiducial sample (Sec.~\ref{sec:results}) and includes:
+
+\subsection*{Column dictionary}
+\begin{itemize}
+  \item \texttt{source\_id} (\textit{Gaia} DR3), \texttt{ra}, \texttt{dec} (deg); \texttt{parallax} (mas), \texttt{parallax\_error} (mas).
+  \item \texttt{pmra}, \texttt{pmdec} (mas\,yr$^{-1}$); \texttt{pmra\_error}, \texttt{pmdec\_error}.
+  \item \texttt{phot\_g\_mean\_mag}, \texttt{phot\_bp\_mean\_mag}, \texttt{phot\_rp\_mean\_mag}.
+  \item 2MASS: \texttt{tmass\_designation}, $J$, $H$, $K_s$, and errors.
+  \item \texttt{astrometric\_fidelity}, RUWE, \texttt{visibility\_periods\_used}.
+  \item \texttt{p\_member} (HDBSCAN pseudo-probability), \texttt{pms\_prob} (Sagitta).
+  \item \texttt{mass\_1}, \texttt{mass\_2} ($M_\odot$; ASteCA), \texttt{p\_binary}.
+  \item \texttt{age\_sagitta} (Myr), $A_V$ (mag) from Sagitta; $A_V$ (mag), $Z$, DM from ASteCA mode.
+\end{itemize}
+
+\subsection*{Printed excerpt}
+For orientation, Table~\ref{tab:app_catalog_excerpt} shows a short excerpt (the full table is electronic-only).
+
+\begin{table*}[h]
+  \centering
+  \caption{Excerpt of the membership catalogue (first 10 rows).}
+  \label{tab:app_catalog_excerpt}
+  \begin{tabular}{lrrrrrrrr}
+    \toprule
+    \texttt{source\_id} & RA & Dec & $\varpi$ & $\mu_{\alpha*}$ & $\mu_\delta$ & $G$ & $p_{\rm member}$ & $p_{\rm PMS}$ \\
+    & (deg) & (deg) & (mas) & (mas\,yr$^{-1}$) & (mas\,yr$^{-1}$) & (mag) &  &  \\
+    \midrule
+    \multicolumn{9}{c}{Provided in the machine-readable supplement.}\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\section{Computational environment and reproducibility}
+\label{app:repro}
+
+\subsection{Software stack}
+Analyses were executed with:
+\begin{itemize}
+  \item Python~3.11; \texttt{numpy}~1.26, \texttt{pandas}~2.1, \texttt{astropy}~6.x, \texttt{scikit-learn}~1.4, \texttt{hdbscan}~0.8,
+  \texttt{pymc}~5.x (with NUTS), \texttt{arviz}~0.16, \texttt{corner}~2.2, \texttt{matplotlib}~3.8.
+  \item Parallax zeropoint: \texttt{gaiadr3-zeropoint}.
+  \item Optional: \texttt{jax} and \texttt{numpyro} backends for acceleration (when available).
+\end{itemize}
+
+\subsection{Environment specification}
+A complete, pinned environment is provided in \verb|environment.yml|. Create it with:
+\begin{verbatim}
+mamba env create -f environment.yml
+mamba activate cosmic-ngc6383
+\end{verbatim}
+
+\subsection{Repository layout}
+\begin{verbatim}
+COSMIC-NGC6383/
+|-- data/
+|   |-- raw/                     # ADQL result dumps (CSV/Parquet) + .yaml metadata
+|   |-- interim/                 # cleaned tables, cross-matches
+|   `-- processed/               # analysis-ready tables (memberships, CMD sets, etc.)
+|-- notebooks/
+|   |-- 01_query_and_filters.ipynb
+|   |-- 02_hdbscan_membership.ipynb
+|   |-- 03_distance_and_pm_model.ipynb
+|   |-- 04_asteca_isochrones.ipynb
+|   |-- 05_sagitta_pms.ipynb
+|   |-- 06_structural_params.ipynb
+|   `-- 07_figures_and_tables.ipynb
+|-- scripts/                     # CLI python scripts mirroring the notebooks
+|-- Figures/                     # all figures used in the manuscript
+|-- environment.yml
+|-- README.md
+`-- LICENSE
+\end{verbatim}
+
+\subsection{Randomness and determinism}
+Wherever stochastic sampling is used (HDBSCAN initialisation, PyMC chains), we set and record \verb|random_seed| in the corresponding notebook/script and store it in each product’s sidecar YAML. Posterior summaries (modes/HPD intervals) are computed with \texttt{arviz} using the exact versions listed above.
+
+\subsection{Reproduction recipe}
+\begin{enumerate}
+  \item Clone the repo and create the environment (above).
+  \item Execute notebooks \texttt{01} through \texttt{07} in order, or run the equivalent \verb|scripts/| with \verb|--config| pointing to the provided YAML.
+  \item Generated tables/figures will populate \verb|data/processed| and \verb|Figures/| and match those cited in the thesis.
+\end{enumerate}
+
+\bigskip
+All supplementary material (machine-readable tables, environment file, notebooks, and figure sources) is archived alongside the thesis repository. Persistent identifiers and exact commit hashes are listed in the repository \verb|README.md|.
+
+% If your thesis compiles references per-chapter, keep \biblio here; otherwise remove it.
+\biblio
+
+\end{document}

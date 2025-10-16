@@ -1,0 +1,44 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Conclusions and future work}
+\label{chap:conclusions}
+
+This chapter synthesises the principal outcomes of the thesis, outlines prospective avenues for further investigation, and reflects on the broader significance of the study.
+
+\subsection{Summary of key findings}
+\label{subsec:conclusions-summary}
+
+The analysis presented herein delivers a comprehensive, \textit{Gaia}-based characterisation of NGC~6383. The main conclusions are:
+\begin{enumerate}
+  \item \textbf{Membership catalogue:} A probabilistic workflow combining HDBSCAN clustering and parallax consistency checks yields a fiducial sample of 254 high-confidence members, significantly improving completeness and purity compared with earlier catalogues.
+  \item \textbf{Fundamental parameters:} Bayesian inference constrains the cluster distance to $1.11^{+0.06}_{-0.05}$~kpc, extinction to $A_V = 1.24^{+0.26}_{-0.22}$~mag, age to $3.5^{+1.4}_{-1.0}$~Myr, and metallicity to $\text{[Fe/H]} = +0.02 \pm 0.12$.
+  \item \textbf{Structural properties:} The cluster exhibits a compact core ($R_c = 0.63 \pm 0.06$~pc), an extended tidal radius ($R_t = 13.0^{+4.5}_{-4.2}$~pc), and a concentration parameter of $C \approx 3.0$, placing it among moderately rich, centrally condensed young clusters.
+  \item \textbf{Stellar populations:} The presence of 53 PMS candidates and a YSO fraction of $\sim28\%$ confirms ongoing or very recent star formation, while the CMD-based masses indicate a rich intermediate- and high-mass population.
+  \item \textbf{Dynamical state:} Statistically significant mass segregation among stars with $M\gtrsim1.8~M_\odot$, alongside a half-mass relaxation time exceeding the cluster age, points to a primordial origin for the observed central concentration of massive (and likely binary) members.
+\end{enumerate}
+
+\subsection{Implications}
+\label{subsec:conclusions-implications}
+
+Collectively, these findings establish NGC~6383 as a benchmark system for probing the early dynamical evolution of open clusters in the \textit{Gaia} era. The results underscore the necessity of probabilistic membership methods when interpreting cluster CMDs, structural profiles, and mass functions. They also illustrate how combining machine-learning classifiers with Bayesian inference can disentangle complex astrophysical questions, such as the origin of mass segregation and the timeline of star formation.
+
+\subsection{Future work}
+\label{subsec:conclusions-future}
+
+Several lines of enquiry emerge naturally from this study:
+\begin{itemize}
+  \item \textbf{Spectroscopic follow-up:} High-resolution radial-velocity monitoring of cluster members would refine the internal velocity dispersion, enable a dynamical mass estimate, and identify unresolved binary systems.
+  \item \textbf{Deep photometry and infrared surveys:} Deeper near-infrared imaging (e.g.\ VISTA, JWST) could extend membership to sub-solar masses, probing the low-mass IMF and testing mass segregation among the faintest stars.
+  \item \textbf{Time-domain observations:} Monitoring variability and accretion indicators in PMS stars would clarify the star-formation history and disk lifetimes within the cluster.
+  \item \textbf{$N$-body simulations:} Tailored dynamical models could explore the survival prospects of NGC~6383 under various tidal environments, helping to determine whether it will remain bound or disperse over the next $\sim100$~Myr.
+  \item \textbf{Comparative studies:} Applying the methodology to neighbouring clusters in the same star-forming complex (e.g.\ NGC~6530, Collinder~334) would reveal whether primordial mass segregation and high YSO fractions are common outcomes in similar environments.
+\end{itemize}
+
+\subsection{Final remarks}
+\label{subsec:conclusions-final}
+
+By uniting precise astrometry, machine-learning techniques, and Bayesian modelling, this thesis provides the most detailed portrait to date of NGC~6383. The approach exemplifies how \textit{Gaia} has transformed open-cluster studies from cataloguing exercises into laboratories for quantitative astrophysics. As future \textit{Gaia} releases, ground-based surveys, and theoretical models continue to mature, the methods and insights developed here will remain valuable for decoding the life cycles of stellar clusters across the Milky Way.
+
+\biblio
+\end{document}

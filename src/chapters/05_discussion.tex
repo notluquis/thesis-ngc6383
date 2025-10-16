@@ -1,0 +1,58 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Discussion}
+\label{chap:discussion}
+
+In this chapter, we interpret the results presented in Chapter~\ref{chap:results}, place them in the context of previous studies of NGC~6383 and analogous young clusters, and discuss their implications for cluster formation and early evolution.
+
+\subsection{A revised picture of NGC~6383}
+\label{subsec:discussion-summary}
+
+The probabilistic membership census and hierarchical Bayesian inference converge on a self-consistent view of NGC~6383 as a very young, moderately rich open cluster at $d=1.11^{+0.06}_{-0.05}$~kpc with age $t\simeq3.5^{+1.4}_{-1.0}$~Myr and extinction $A_V\simeq1.2$~mag (Sections~\ref{subsec:results-structure}--\ref{subsec:results-cmd}). The total stellar mass, $M_{\text{cluster}}\approx9\times10^2\,M_\odot$, together with a concentration parameter $C\approx3$ and half-mass radius $R_{\text{hm}}\simeq2$~pc, places NGC~6383 among centrally concentrated, dynamically young clusters in the Galactic disk. These inferences benefit from a conservative, contamination-aware workflow: HDBSCAN-based kinematic pre-selection, parallax consistency checks, and joint modelling of proper motions, parallaxes, and the CMD using informed priors.
+
+\subsection{Consistency and departures relative to previous work}
+\label{subsec:discussion-literature}
+
+Our results align with modern \textit{Gaia}-based catalogues and clarify long-standing discrepancies:
+
+\begin{itemize}
+  \item \textbf{Distance.} The parallax-derived $d=1.11$~kpc agrees within $1\sigma$ with recent DR2/DR3 determinations and disfavors older photometric distances near $\sim1.7$~kpc (Table~\ref{tab:literature}).
+  \item \textbf{Age.} The isochrone- and PMS-informed age of $3$--$4$~Myr reconciles values clustered around 1--5~Myr and rules out $\sim20$~Myr claims likely driven by field contamination and limited PMS sensitivity.
+  \item \textbf{Extinction.} $A_V\!\sim\!1.2$~mag implies higher attenuation than the canonical $E(B\!-\!V)\!\sim\!0.3$ from pre-\textit{Gaia} studies, consistent with spatially variable dust in Sh~2-12.
+  \item \textbf{Membership size.} The fiducial list of 254 stars roughly doubles early photometric counts and is comparable to DR2-era ML catalogues, highlighting DR3 astrometric depth and our conservative cuts.
+\end{itemize}
+
+Overall, NGC~6383 emerges as a nearby, very young cluster with improved, internally consistent parameters and controlled field contamination.
+
+\subsection{Star-formation history and notable (non-)members}
+\label{subsec:discussion-members}
+
+The PMS-rich population, including numerous Sagitta-identified objects younger than $\sim6$~Myr, and a YSO fraction $Y_{\text{frac}}\simeq0.28$ (Section~\ref{subsec:results-cmd}) point to recent and possibly extended or sequential star formation within Sh~2-12. Two bright projected objects are likely interlopers: HD~159176 (O7V+O7V) shows proper motions and parallax inconsistent with cluster membership, and NGC~6383~22 ($\lambda$~Boo) shares the parallax but not the proper motion. Their foreground/field nature implies they did not set the cluster age or trigger its formation, although HD~159176 may illuminate local nebulosity. The PMS spatial distribution---peaked toward the core yet extending beyond $R_{\text{hm}}$---suggests both centrally concentrated formation and triggered star formation in the surrounding material.
+
+\subsection{Primordial versus dynamical mass segregation}
+\label{subsec:discussion-segregation}
+
+We detect significant central concentration among higher-mass stars ($M\gtrsim1.8\,M_\odot$) and candidate binaries (Section~\ref{subsec:results-dynamics}). Given $t_{\text{rh}}\approx13$~Myr exceeds the cluster age by a factor of $\sim4$, the observed segregation is unlikely to result solely from two-body relaxation. Instead, it favors a \emph{primordial or early} origin, consistent with scenarios in which massive stars (and high-$q$ systems) either form in the deepest potential wells of subclusters or sink rapidly during violent relaxation as substructure merges. Continued monitoring can test whether progressively lower-mass bins start to segregate as the cluster evolves, providing a dynamical clock for early evolution.
+
+\subsection{Relaxation state, tidal boundary, and future evolution}
+\label{subsec:discussion-future}
+
+With $R_t\simeq13$~pc and a Hill radius near $\sim28'$ (Section~\ref{subsec:results-structure}), NGC~6383 appears marginally tidally filled. Members beyond the Hill radius likely trace ongoing evaporation shaped by the Galactic tidal field. Nevertheless, the central density and current mass suggest survival over several $\times10$~Myr in the absence of strong external perturbations (e.g.\ GMC passages). Comparison with analogues of similar age and mass (e.g.\ NGC~6530, NGC~6231) indicates that rapid structural evolution is common, with loosely bound halos shedding first. Tailored $N$-body experiments anchored to our measured $M$, $R_{\text{hm}}$, $R_t$, and phase-space distribution would quantify expected mass loss, binary processing, and the timescale for full relaxation.
+
+\subsection{Limitations and avenues for improvement}
+\label{subsec:discussion-limitations}
+
+Our conclusions are robust within present data quality but subject to the following limitations:
+
+\begin{itemize}
+  \item \textbf{Sparse radial velocities.} Limited \textit{Gaia} $V_r$ coverage (and variable amplitude in some sources) prevents a precise line-of-sight dispersion and dynamical mass estimate; multi-epoch spectroscopy is required.
+  \item \textbf{Low-mass incompleteness.} At $d\!\sim\!1.1$~kpc, \textit{Gaia} becomes incomplete below $M\!\sim\!0.3\,M_\odot$, hampering constraints on the low-mass IMF and segregation among the faintest members; deeper IR imaging would help.
+  \item \textbf{Differential extinction.} Spatially varying extinction within Sh~2-12 broadens the CMD; resolved extinction maps or multi-band photometry are needed to reduce scatter and tighten isochrone fits.
+  \item \textbf{Model dependence.} Ages/masses reflect the MIST grid and adopted priors; cross-checks with PARSEC/BHAC15 and binary-sensitive synthesis will refine absolute scales while preserving relative trends.
+\end{itemize}
+
+\paragraph{Outlook.} A combined program—multi-epoch, high-resolution spectroscopy (membership, $V_r$, binarity), deep near/mid-IR imaging (low-mass census, disks), and tailored $N$-body modelling—will (i) resolve the internal kinematics and virial state, (ii) map primordial versus dynamical segregation across mass and multiplicity, and (iii) forecast the survivability and mass-loss history of NGC~6383 in its Galactic context.
+
+\biblio
+\end{document}

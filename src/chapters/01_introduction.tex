@@ -1,0 +1,77 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Introduction}
+
+Open clusters are cornerstone laboratories for understanding stellar evolution, dynamical processes, and the assembly history of the Milky Way. Their common origin, near-uniform initial composition, and range of ages allow astronomers to test theories of star formation and cluster disruption under controlled conditions. Young clusters, in particular, preserve the memory of their natal environments, while older systems carry imprints of secular Galactic processes such as tidal stripping and disk heating. This thesis focuses on the open cluster NGC~6383---a young, relatively nearby system whose stellar content and dynamical state can illuminate the earliest phases of cluster evolution.
+
+\subsection{Open clusters as laboratories for Galactic astrophysics}
+
+Open clusters are among the most fundamental environments for testing theories of stellar evolution and Galactic structure. Their stars originate from the same molecular cloud and share similar ages, chemical compositions, and kinematic properties. This common origin allows astronomers to isolate the effects of stellar mass, binarity, and environment, making open clusters ideal laboratories for studying stellar physics under controlled initial conditions. Their colour--magnitude diagrams (CMDs) capture entire stellar populations at different evolutionary stages, enabling precise determinations of distances, reddening, and ages through isochrone fitting.
+
+The ensemble of known open clusters traces the Milky Way’s disk structure, metallicity gradients, and star-formation history. Young clusters reveal the physical conditions of molecular clouds and the mechanisms that regulate star-formation efficiency, while intermediate- and old-age clusters provide anchors for the Galactic age--metallicity relation. Because they are distributed along the Galactic plane, open clusters also serve as kinematic probes of the thin disk, providing insight into spiral-arm dynamics, disk heating, and tidal disruption processes.
+
+The earliest phases of open-cluster evolution are particularly informative. The presence of pre-main-sequence (PMS) stars and young stellar objects (YSOs) constrains disk-dissipation timescales, angular-momentum evolution, and the persistence of accretion. Observing PMS populations of varying ages within the same cluster can reveal true or apparent age spreads, clarifying whether star formation occurs in bursts or proceeds continuously. In addition, the frequency and spatial distribution of binaries and higher-order multiples serve as indicators of both initial conditions and subsequent dynamical evolution. A high binary fraction among massive members, for instance, can promote early mass segregation and accelerate core contraction.
+
+The spatial and kinematic structure of open clusters encodes their dynamical history. Measurements of stellar surface density, radial profiles, and concentration parameters distinguish compact, dynamically evolved clusters from looser associations still in formation. Comparisons between a cluster’s age and its relaxation time help determine whether observed mass segregation is primordial or dynamically induced. Moreover, studying dissolution through external influences—such as tidal shocks, molecular-cloud encounters, and spiral-arm passages—links internal evolution to the broader ecology of the Galactic disk.
+
+Ultimately, accurate identification of cluster members is essential to every subsequent analysis. Field contamination can bias CMD fitting, distort luminosity functions, and obscure dynamical trends. Modern astrometry from \textit{Gaia} has revolutionised this step, providing precise parallaxes and proper motions that enable probabilistic membership determination across wide mass ranges. When combined with near-infrared surveys such as 2MASS, these datasets yield robust samples that include both main-sequence and PMS stars, even in regions affected by extinction.
+
+In this context, open clusters are not merely static stellar aggregates but evolving systems that bridge star formation and Galactic dynamics. They provide benchmarks for calibrating stellar models, tracing chemical evolution, and testing the interplay between internal and external processes that shape the Galactic disk. Their study thus remains central to understanding how the Milky Way assembles, evolves, and recycles its stellar populations.
+
+\subsection{The \textit{Gaia} revolution in cluster studies}
+The European Space Agency’s \textit{Gaia} mission has transformed open–cluster astrophysics by providing homogeneous, all–sky astrometry and photometry to $G\simeq20$~mag with sub-milliarcsecond parallaxes and milliarcsecond-per-year proper motions \citep{2016A&A...595A...1G,2023A&A...674A...1G}. With these data, cluster membership can be inferred in kinematic space rather than solely in the CMD, sharply reducing field contamination and uncovering low-contrast systems and extended structures (e.g. tidal features) that eluded pre-\textit{Gaia} surveys \citep[e.g.,][]{2020AA...640A...1C}. Successive data releases have expanded the census of clusters by factors of a few and enabled population studies across the Galactic disc, including gradients, age sequences, and dissolution signatures.
+
+Equally important, the exquisite astrometry allows methodological advances. Unsupervised clustering in $(\mu_{\alpha*},\mu_\delta,\varpi)$ separates co-moving populations with minimal assumptions, while probabilistic frameworks propagate measurement errors and selection effects into inferences on distances, kinematics, and structure. In this thesis, we adopt HDBSCAN in proper-motion space to obtain an initial member set, followed by parallax-based sigma clipping to refine the sample. We correct known systematics—parallax zero-point and magnitude-dependent proper-motion biases—using DR3 prescriptions and ancillary tools \citep{2021A&A...649A...2L,2021A&A...649A.124C}, and we leverage the astrometric-fidelity metric to downweight unreliable solutions \citep{2022MNRAS.510.2597R}.
+
+Parameter estimation benefits from the synergy between \textit{Gaia} astrometry and wide-field photometry. We model the cluster’s distance using geometric posteriors calibrated on \textit{Gaia} parallaxes \citep{2021AJ....161..147B}, and infer global properties (age, extinction, metallicity) via Bayesian isochrone fitting with MIST tracks, explicitly marginalizing over uncertainties. The common, self-consistent astrometric frame also enables robust structural modelling (e.g. King profiles), dynamical diagnostics (relaxation and segregation timescales), and cross-matched PMS/YSO identification when combined with 2MASS.
+
+Overall, \textit{Gaia} shifts open–cluster work from heterogeneous, photometry-only heuristics to reproducible, data-driven analyses that integrate clustering algorithms, hierarchical Bayesian inference, and multi-band photometry. The methodology we implement throughout this thesis—membership via machine learning in kinematic space, systematics-aware astrometry, and fully probabilistic parameter estimates—rests directly on this \textit{Gaia}-enabled revolution.
+\subsection{NGC~6383: A young cluster in the Sagittarius arm}
+
+NGC~6383 is a young open cluster located in the Sagittarius--Carina spiral arm, embedded within the \ion{H}{ii} region Sh~2-012. It is situated near the Galactic plane at coordinates $\ell = 355.68^{\circ}$ and $b = 0.05^{\circ}$, forming part of the larger Sirius~OB1 association together with NGC~6530 and NGC~6531. Historical studies have yielded a wide range of distances (0.8--1.7~kpc), ages (1--20~Myr), and reddening values, reflecting limitations in earlier photometric and spectroscopic data as well as contamination from nearby bright stars projected along the line of sight.
+
+The cluster’s ionized environment is dominated by the O-type spectroscopic binary HD~159176, long considered the main ionizing source of Sh~2-012 and a possible trigger of secondary star formation. However, recent \textit{Gaia} astrometry suggests that HD~159176 is not gravitationally bound to the cluster, challenging the hypothesis that it formed within the same stellar generation. This highlights the need for precise membership analyses that can disentangle true cluster members from unrelated foreground or background objects projected near the cluster’s center.
+
+The most recent investigations using \textit{Gaia}~DR2 and DR3 data have identified several hundred candidate members, revealing a rich pre–main-sequence (PMS) population that confirms ongoing or very recent star formation activity. Yet, these studies often relied on independent or partially overlapping samples and heterogeneous methods, resulting in inconsistent estimates of the cluster’s parameters. In particular, membership completeness, structural properties, and internal kinematics remain uncertain due to varying sample selections and the absence of a unified treatment of astrometric fidelity, photometric validation, and statistical modeling.
+
+This thesis addresses these limitations by applying a consistent, reproducible framework that integrates unsupervised clustering, Bayesian inference, and neural-network classification to \textit{Gaia}~DR3 and 2MASS data. Through this approach, we aim to provide a robust characterization of NGC~6383’s membership, structure, age, and dynamical state, establishing it as a benchmark for the study of young open clusters in the Galactic disk.
+
+\subsection{Research objectives and hypotheses}
+
+This thesis aims to provide a comprehensive and reproducible characterisation of the open cluster NGC~6383 through the integration of astrometric, photometric, and statistical methods. The overarching goal is to derive a unified and statistically robust description of the cluster’s structure, stellar population, and evolutionary state. To achieve this, we address the following research questions:
+
+\begin{itemize}
+    \item What is the most reliable membership census of NGC~6383 attainable using \textit{Gaia}~DR3 astrometry in combination with near-infrared photometry from 2MASS?
+    \item Which fundamental parameters (distance, reddening, age, metallicity, and total mass) best describe the cluster when derived through Bayesian inference that accounts for measurement uncertainties and selection biases?
+    \item How is the cluster spatially structured, and what do its core and tidal radii indicate about its current dynamical state and interaction with the Galactic environment?
+    \item Does the spatial distribution of stellar masses exhibit evidence of mass segregation, and can this be attributed to primordial conditions or dynamical evolution within the cluster’s lifetime?
+    \item What fraction of the member population corresponds to pre–main-sequence (PMS) and young stellar objects (YSOs), and what does this imply for the cluster’s recent star-formation history?
+\end{itemize}
+
+Based on current literature and preliminary analyses, the working hypotheses of this research are as follows:
+
+\begin{enumerate}
+    \item NGC~6383 is located at a heliocentric distance of approximately $1.1~\mathrm{kpc}$, with moderate extinction ($A_V \approx 1.0$--$1.5~\mathrm{mag}$).
+    \item The cluster is younger than $5~\mathrm{Myr}$ and therefore dynamically unevolved, implying that any observed mass segregation among high-mass stars is predominantly primordial.
+    \item A significant fraction ($\gtrsim 20\%$) of members are PMS or YSO candidates, consistent with ongoing or very recent star formation within the last few million years.
+\end{enumerate}
+
+Together, these objectives establish the framework for a reproducible, data-driven investigation of NGC~6383, aimed at refining its physical parameters, validating its membership, and elucidating the mechanisms governing its early dynamical evolution.
+
+\subsection{Thesis structure}
+
+The remainder of this thesis is organised as follows. 
+Chapter~\ref{chap:background} provides a comprehensive review of the theoretical and observational context relevant to open clusters. It covers recent advances in membership determination in the \textit{Gaia} era, the structural and dynamical diagnostics used to assess cluster morphology and evolution, the identification and classification of pre–main-sequence (PMS) and young stellar objects (YSOs), and Bayesian inference techniques for deriving cluster parameters.
+
+Chapter~\ref{chap:methods} describes the datasets, data-retrieval procedures, and statistical methods applied throughout this work. It details the construction of the analysis pipeline, including data extraction from \textit{Gaia}~DR3 and 2MASS, quality and fidelity filtering, and the use of the \textsc{HDBSCAN} algorithm for astrometric membership determination. This chapter also outlines the Bayesian inference framework for distance and structure estimation, the isochrone-fitting procedures, PMS classification using the \textsc{Sagitta} neural network, and the overall reproducibility workflow implemented in \textsc{COSMIC}.
+
+Chapter~\ref{chap:results} presents the main results. It includes the membership census and kinematic analysis, distance and parallax determination, structural parameters from radial-density profiles and King-model fitting, colour–magnitude diagram (CMD) modelling, PMS and YSO characterization, and the study of mass segregation and dynamical state. Each section integrates both Bayesian and machine-learning results, highlighting consistency and deviations with prior studies.
+
+Chapter~\ref{chap:discussion} discusses these findings in the context of cluster formation and evolution. It proposes a revised picture of NGC~6383, compares the results with previous literature, analyses notable members and the cluster’s star-formation history, and explores the interplay between primordial and dynamical mass segregation. It further addresses the cluster’s relaxation stage, potential evolutionary paths, and methodological limitations.
+
+Chapter~\ref{chap:conclusions} summarises the key conclusions and implications of this study, outlining how the methods and results contribute to our understanding of young open clusters in the Galactic disc. It also identifies future avenues of research, including extensions of the \textsc{COSMIC} framework to other clusters and large-scale Galactic surveys.
+
+Finally, the Appendices provide supporting material: detailed data-retrieval queries and filtering procedures, supplementary figures and tables, the full membership catalogue, and information about the computational environment to ensure the full reproducibility of all analyses presented in this thesis.
+\biblio % Required to resolve references when compiling this subfile individually
+\end{document}

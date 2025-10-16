@@ -1,0 +1,16 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\thispagestyle{abstractpage}
+\vspace*{2\baselineskip}
+
+\noindent
+This thesis presents a comprehensive characterization of the young open cluster NGC 6383, located in the Carina–Sagittarius arm and embedded within the Sh 2-012 star-forming region. Combining Gaia DR3 and 2MASS data, a unified Bayesian and machine-learning framework was developed to refine the cluster’s membership, distance, age, and internal structure. The identification of members was performed using the HDBSCAN clustering algorithm weighted by astrometric fidelity, while stellar parameters were inferred through Bayesian inference with the No-U-Turn Sampler (NUTS) implemented in PyMC. The pre-main-sequence (PMS) population was classified using the Sagitta neural network, which also provided extinction and age estimates for individual sources.
+
+The analysis identified 254 probable members, establishing a mode age of $3.53^{+1.40}_{-1.00}$ Myr and a distance of $1.11 \pm 0.06$ kpc. The color–magnitude diagram reveals a clear main sequence alongside a rich PMS population, consistent with ongoing star formation over the past 1–6 Myr. Structural modeling with ASteCA and King profiles yielded a core radius of $1.95 \pm 0.19$ arcmin and a tidal radius of $40.4 \pm 14.3$ arcmin. The study also revealed evidence of primordial mass segregation among binary systems, indicating that NGC 6383 is dynamically young and not yet relaxed.
+
+These results not only refine the cluster’s fundamental parameters but also highlight the power of combining probabilistic modeling and neural-network classification in the Gaia era. The methodological framework developed here—integrating unsupervised clustering, Bayesian inference, and data-driven PMS diagnostics—demonstrates a reproducible and scalable approach for studying young open clusters and their star formation histories.
+\par\vspace*{\fill}
+\textbf{\textit{Keywords --}} open clusters and associations: individual (NGC 6383); stars: pre-main sequence; methods: data analysis; techniques: photometric; astrometry
+
+\end{document}

@@ -1,0 +1,96 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Data and methodology}
+\label{chap:methods}
+
+This chapter documents the end-to-end workflow used to build the NGC~6383 member catalogue and to derive its physical and dynamical properties. The pipeline comprises five stages: (i) data retrieval and cleaning, (ii) unsupervised membership clustering, (iii) Bayesian parameter inference, (iv) PMS/YSO classification, and (v) reproducibility practices. Throughout, we rely on a modular analysis framework (\textsc{COSMIC}; Pulgar-Escobar et al., in prep.) that orchestrates the steps and preserves provenance.
+
+\subsection{Data retrieval and preparation}
+\label{subsec:data-prep}
+
+\subsubsection{Gaia DR3 query}
+We queried \textit{Gaia}~DR3 within a $40\,$arcmin radius of the nominal centre of NGC~6383 (RA~$=17^{\mathrm{h}}34^{\mathrm{m}}48^{\mathrm{s}}$, Dec~$=-32^{\circ}34'00''$), returning $\sim2.37\times10^4$ sources. For each source we retained sky positions, Galactic coordinates, parallaxes and proper motions with full covariance, $G$, $G_{\rm BP}$, $G_{\rm RP}$ photometry, uncertainties, RUWE, visibility periods, and internal cross-match identifiers. All subsequent stages used these columns directly from the ADQL result to avoid recomputation.
+
+\subsubsection{Quality filters}
+To ensure reliable astrometry and photometry we applied:
+\begin{itemize}
+  \item RUWE $<1.4$ and visibility periods $\ge 8$ to exclude problematic single-star solutions.
+  \item Astrometric fidelity $>0.5$ \citep{2022MNRAS.510.2597R} to suppress catalogue artefacts.
+  \item Photometric-excess factor within the colour-dependent envelope recommended in the DR3 documentation to mitigate blends/extended sources.
+  \item For the parallax–distance inference stage only: $\sigma_\varpi < 0.1$~mas.
+\end{itemize}
+Parallaxes were corrected for the global zero point using the prescription of \citet{2021A&A...649A...2L}. Following \citet{2021A&A...649A.124C}, we applied a magnitude-dependent proper-motion correction for bright sources ($11\le G \le 13$) to compensate the frame offset between bright and faint regimes (up to $\sim80~\mu\mathrm{as\,yr^{-1}}$).
+
+\subsubsection{Ancillary photometry}
+We obtained $J$, $H$, $K_s$ from the 2MASS Point Source Catalog via the DR3 pre-computed association \texttt{tmass\_psc\_xsc\_best\_neighbour} \citep{2022gdr3.reptE..15M}, yielding $\sim5300$ cross-matches within $0.3$~arcsec. A left join preserved all \textit{Gaia} entries and appended available 2MASS data. Magnitudes are on the Vega system; uncertainties were propagated to all derived colours.
+
+\subsection{Astrometric membership determination}
+\label{subsec:membership}
+
+\subsubsection{Feature scaling and selection}
+We constructed the three-dimensional astrometric space $(\mu_{\alpha*},\,\mu_\delta,\,\varpi)$, standardising each coordinate to zero mean and unit variance. Tests including positions $(\alpha,\delta)$ yielded consistent clusters but increased sensitivity to spatial field gradients; thus the 3D space was adopted for the final catalogue.
+
+\subsubsection{HDBSCAN workflow}
+We extracted the cluster using \texttt{hdbscan} \citep{McInnes2017}. Hyperparameters were tuned by:
+\begin{enumerate}
+  \item Scanning $\texttt{min\_cluster\_size}\in[15,80]$ and inspecting condensed tree diagrams for persistent leaves.
+  \item Selecting $\texttt{min\_cluster\_size}=45$ and $\texttt{min\_samples}=1$ as a compromise between completeness and noise rejection.
+  \item Running $200$ bootstrap realisations (perturbed seeds) to compute per-source stability.
+\end{enumerate}
+Each star’s stability was converted to a pseudo-probability $p_{\rm HDBSCAN}\in[0,1]$. Candidates with $p_{\rm HDBSCAN}>0.5$ form the preliminary list; those with $p>0.8$ constitute the high-confidence subset used in structural/dynamical modelling. Figure~\ref{fig:proper_motion} shows the resulting proper-motion locus.
+
+\subsubsection{Parallax consistency filtering}
+Residual contamination was suppressed with a two-step parallax filter:
+\begin{enumerate}
+  \item Compute the mode of the corrected parallax distribution for the high-confidence subset.
+  \item Retain stars within $2\sigma$ of the mode, with $\sigma^2=\sigma_{\rm int}^2+\sigma_{\varpi,i}^2$ and $\sigma_{\rm int}$ estimated iteratively.
+\end{enumerate}
+The final catalogue contains 321 candidates with $p>0.5$, of which 254 satisfy $p>0.6$ and the parallax-consistency criterion; these underpin all subsequent analyses (Figs.~\ref{fig:center}–\ref{fig:parallax_distance}).
+
+\subsection{Bayesian inference of cluster parameters}
+\label{subsec:bayesian-inference}
+
+\subsubsection{Parallax and distance}
+We inferred the cluster parallax $\varpi_c$ and intrinsic dispersion $\sigma_\varpi$ with a hierarchical PyMC model:
+\begin{align*}
+  \varpi_i      &\sim \mathcal{N}(\varpi_c,\,\sigma_\varpi^2+\sigma_{\varpi,i}^2),\\
+  \varpi_c      &\sim \mathcal{N}(\varpi_0,\,0.05^2),\\
+  \sigma_\varpi &\sim \mathrm{HalfNormal}(0.05),
+\end{align*}
+where $\varpi_0$ is centred on the mode from the geometric distances of \citet{2021AJ....161..147B}. Posterior samples were mapped to distance using $d=1/\varpi_c$ with full uncertainty propagation (see Fig.~\ref{fig:parallax_distance}).
+
+\subsubsection{Proper-motion distribution}
+The mean proper motion $(\overline{\mu_{\alpha*}},\overline{\mu_\delta})$ and intrinsic covariance were obtained by fitting a 2D Gaussian in PyMC to the high-confidence members (Fig.~\ref{fig:proper_motion}). From these we derived the projected velocity amplitude and credible intervals used in comparisons with literature values.
+
+\subsubsection{Structural modelling}
+We computed radial surface densities using equal-number annuli centred on the KDE maximum (Fig.~\ref{fig:center}). A King profile,
+\begin{equation*}
+  \Sigma(r)=k\!\left[\frac{1}{\sqrt{1+(r/R_c)^2}}-\frac{1}{\sqrt{1+(R_t/R_c)^2}}\right]^2 + b,
+\end{equation*}
+was fit via MCMC to infer $(R_c,R_t,k,b)$ (Fig.~\ref{fig:king}). Half-light and half-mass radii were computed by integrating the best-fit profile and by cumulative luminosity/mass respectively. We also calculated Hill and Jacobi (gravitationally bound) radii using standard Galactic rotation parameters to assess tidal filling (Fig.~\ref{fig:real_sky}).
+
+\subsubsection{Isochrone fitting}
+Cluster age, distance modulus, extinction and metallicity were inferred against the MIST grid using a PyMC interface. Priors were:
+\begin{itemize}
+  \item $\log_{10}(\mathrm{age/yr}) \sim \mathcal{U}(6.0,7.0)$,
+  \item $A_V \sim \mathcal{U}(0,3)$,
+  \item $\mu \sim \mathcal{N}(\mu_0,0.2^2)$ with $\mu_0$ from the parallax posterior,
+  \item $\mathrm{[Fe/H]} \sim \mathcal{N}(0,0.2^2)$.
+\end{itemize}
+The likelihood used $(G,G_{\rm BP},G_{\rm RP})$ and their uncertainties, marginalising over binary mass ratios when required. Posteriors yield credible intervals and stellar masses for the mass-segregation analysis (Figs.~\ref{fig:cmd}–\ref{fig:cmd_ngc6383_various}).
+
+\subsection{PMS and YSO identification}
+\label{subsec:pms-sagitta}
+We applied the \textsc{Sagitta} neural network \citep{2021AJ....162..282M} to all members with 2MASS counterparts, using extinction-corrected colours, apparent magnitudes, and parallaxes as inputs. The model returns PMS probability, age, and $A_V$; we flagged stars with PMS probability $>0.6$ as robust PMS candidates (Figs.~\ref{fig:cmd}, \ref{fig:pms_sagitta_stats}). Disk-bearing YSOs were identified with the reddening-free index
+\begin{equation}
+Q=(J-H)-\frac{E(J-H)}{E(H-K)}(H-K), \qquad \frac{E(J\!-\!H)}{E(H\!-\!K)}=1.55,
+\end{equation}
+classifying YSOs when $Q<-0.05$~mag \citep{2013MNRAS.436.1465B}. The YSO fraction $Y_{\rm frac}$ was computed for the high-confidence sample with complete photometry, and uncertainties were derived from a Beta posterior for the binomial proportion \citep{2011PASA...28..128C}.
+
+\subsection{Software and reproducibility}
+\label{subsec:reproducibility}
+All analyses were performed in Python~3.11/3.12 using \texttt{astropy}, \texttt{numpy}, \texttt{pandas}, \texttt{scikit-learn}, \texttt{hdbscan}, \texttt{pymc}, and \texttt{corner}. Random seeds were fixed for stochastic components (bootstraps, MCMC initialisation). The \textsc{COSMIC} pipeline controls configuration via YAML files and logs parameters and versions. Intermediate artefacts (cleaned catalogues, membership tables, MCMC traces) are versioned and archived to ensure provenance. Jupyter notebooks and the environment specification are referenced in Appendix~\ref{app:repro}.
+
+\biblio
+\end{document}

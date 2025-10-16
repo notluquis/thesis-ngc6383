@@ -1,0 +1,116 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+% Ensure the appendix numbering matches the main document when compiling this file alone.
+\renewcommand{\thesection}{A\arabic{section}}
+\renewcommand{\thetable}{A\arabic{section}.\arabic{table}}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+% Uncomment the block below when using a class other than book.
+%\renewcommand{\thesubsection}{A\arabic{subsection}}
+%\renewcommand{\thetable}{A\arabic{subsection}.\arabic{table}}
+%\counterwithin{table}{subsection}
+%\counterwithin{figure}{subsection}
+
+\definecolor{lightgray}{RGB}{247,247,247}
+
+\section{Getting Started}
+This appendix collects loose tips for maintaining the thesis project. It is not included in the compiled thesis unless you explicitly reference it from \textit{main.tex}. Compile the file on its own whenever you want to preview the notes.
+
+\section{Adding Chapters and Sections}
+The thesis is split into subfiles inside `src/chapters/`. Each chapter lives in its own \LaTeX{} file, which keeps the project tidy and lets you compile chapters independently.
+
+To create a new chapter, add a file under `src/chapters/` and use the following template:
+
+\linespread{1}
+\begin{minted}[
+  bgcolor=lightgray,
+  style=vs
+]{latex}
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+% Write your chapter content here
+
+\biblio
+\end{document}
+\end{minted}
+\linespread{1.3}
+Remember to register the file in ``src/main.tex'' with ``\subfile{chapters/<filename>}'' so it appears in the final PDF in the desired order.
+
+\subsection{Section Titles}
+Create numbered subsections with ``\texttt{\subsection{\ldots}}''. Deeper levels are available through ``\texttt{\subsubsection}'' and ``\texttt{\paragraph}''. The counters follow the pattern Chapter.Section.Subsection.Paragraph.
+
+\section{Figures, Tables, and Equations}
+\subsection{Figures}
+Place illustrative material under ``src/figures/''. Thanks to the configured ``\graphicspath'', it is enough to reference images by filename:
+
+\linespread{1}
+\begin{minted}[
+  bgcolor=lightgray,
+  style=vs
+]{latex}
+\begin{figure}[H]
+    \centering
+    \caption{University seal}
+    \includegraphics[width=0.2\columnwidth]{escudo_udec.png}
+    \label{fig:udec_logo}
+\end{figure}
+\end{minted}
+\linespread{1.3}
+The ``\texttt{\label}'' should follow the caption so cross references via ``\texttt{\ref{}}'' point to the correct number.
+
+\subsection{Tables}
+You can design tables manually or generate them with online tools such as \url{https://www.tablesgenerator.com/}. The snippet below produces Table~\ref{tab:variables-example}.
+
+\linespread{1}
+\begin{minted}[
+  bgcolor=lightgray,
+  style=vs
+]{latex}
+\begin{table}[H]
+    \centering
+    \caption{Variables in the dataset}
+    \label{tab:variables-example}
+    \begin{tabular}{lr}
+        \hline\hline
+        Variable name & Type \\
+        \hline
+        Postal code       & Categorical \\
+        Date of birth     & Date \\
+        Municipality      & Categorical \\
+        Registration date & Date \\
+        Total mass        & Numerical \\
+        \hline\hline
+    \end{tabular}
+\end{table}
+\end{minted}
+\linespread{1.3}
+
+\subsection{Equations}
+Display equations using the equation environment so that numbering and referencing remain automatic:
+
+\linespread{1}
+\begin{minted}[
+  bgcolor=lightgray,
+  style=vs
+]{latex}
+\begin{equation}\label{eq:example}
+    \hat{f}(x) = \sum_{b=1}^{B} \lambda \, \hat{f}^{(b)}(x)
+\end{equation}
+\end{minted}
+\linespread{1.3}
+Inline expressions can be written with ``\(\ldots\)'', e.g. ``\(x + x = y\)''.
+
+\section{Appendix Numbering}
+When compiling this file separately the section counters start with the prefix ``A''. Figures, tables, and equations inherit the same prefix to match the main document.
+
+\section{References}
+The project relies on the ``natbib'' package with the ``apalike'' style. Add bibliography entries to ``src/cites.bib'' and cite them in the text with ``\texttt{\citep}'' or ``\texttt{\citet}''. Use ``\texttt{\nocite{*}}'' if you need to print the entire bibliography for drafting purposes.
+
+\section{Miscellaneous Tips}
+Comments start with the percent symbol (``\%''). Escape literal percent signs with ``\texttt{\%}'' and dollar signs with ``\texttt{\$}''. For more \LaTeX{} examples, the community-driven documentation at \url{https://tex.stackexchange.com/} and the Overleaf guides are excellent references.
+
+\biblio
+\end{document}

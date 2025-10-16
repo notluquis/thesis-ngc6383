@@ -1,0 +1,95 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Results}
+\label{sec:results}
+
+This chapter reports the empirical results obtained with the workflow of Chapter~\ref{chap:methods}. We first summarise the membership census and kinematics, then present distance and structural parameters, analyse optical/IR colour--magnitude diagrams and inferred stellar properties, and conclude with dynamical diagnostics and mass segregation.
+
+\subsection{Membership census and kinematics}
+\label{subsec:results-membership}
+
+\subsubsection{Membership probability distribution}
+Figure~\ref{fig:membership-probability} (to be added) will show membership probability versus $G$ magnitude: completeness is high at bright magnitudes and declines at the faint end. The final catalogue comprises
+\begin{itemize}
+  \item 321 candidates with $p_{\rm HDBSCAN}>0.5$ (inclusive sample),
+  \item 254 stars with $p_{\rm HDBSCAN}>0.6$ and parallax-consistent (fiducial sample),
+  \item 187 stars with $p_{\rm HDBSCAN}>0.8$ (high-confidence sample).
+\end{itemize}
+
+\subsubsection{Proper-motion distribution}
+The vector-point diagram (Fig.~\ref{fig:pm-vpd}) exhibits a compact locus centred at
+$\mu_{\alpha*}=2.54\pm0.01~\mathrm{mas\,yr^{-1}}$ and
+$\mu_\delta=-1.71\pm0.01~\mathrm{mas\,yr^{-1}}$.
+The intrinsic dispersion from the Bayesian fit is $\sigma_\mu\simeq0.11~\mathrm{mas\,yr^{-1}}$, consistent with a young cluster at $\sim1$~kpc. Field contamination within the $2\sigma$ ellipse is minimal.
+
+\subsubsection{Spatial distribution}
+Kernel-density surface maps (Fig.~\ref{fig:surface-density}) reveal a centrally concentrated cluster and a smooth halo to $\sim30'$, with mild overdensities roughly along the Galactic plane. The density peak gives
+$\alpha=17^{\mathrm h}34^{\mathrm m}44^{\mathrm s}$,
+$\delta=-32^\circ34'48''$,
+in excellent agreement with literature centres. No clear tidal tails are detected at the present depth.
+
+\subsection{Distance and structural parameters}
+\label{subsec:results-structure}
+
+\subsubsection{Parallax and distance}
+The hierarchical model yields $\varpi_c=0.904\pm0.019$~mas (posterior mean), corresponding to
+$d=1.11^{+0.06}_{-0.05}$~kpc after zero-point correction. This agrees with recent \textit{Gaia}-based results and improves precision by a factor $\gtrsim2$. Figure~\ref{fig:parallax-posterior} will show the parallax histogram, posterior, and the Bailer-Jones prior.
+
+\subsubsection{Radial density profile}
+A King-profile fit to the surface-density profile (Fig.~\ref{fig:king-profile}) gives:
+\begin{align*}
+  R_c &= 1.95'\pm0.19' \;(0.63\pm0.06~\mathrm{pc}),\\
+  R_t &= 40'\pm14' \;(13.0^{+4.5}_{-4.2}~\mathrm{pc}),\\
+  C   &= \log(R_t/R_c)=3.0^{+0.4}_{-0.3},
+\end{align*}
+with background $b=(1.1\pm0.3)\times10^{-2}\ \mathrm{stars\,arcmin^{-2}}$.
+About 39 members lie between the Hill radius ($\sim28'$) and $R_t$, suggesting an emerging halo shaped by Galactic tides.
+
+\subsubsection{Global cluster properties}
+Integrating the profile and summing posterior stellar masses yields
+$M_{\rm cl}\approx 9.0^{+1.8}_{-1.5}\times10^2~M_\odot$.
+We find $R_{\rm hm}=6.2'\pm0.8'$ ($\approx2.0$~pc) and
+$R_{\rm hl}=6.0'\pm0.7'$, indicating low-mass stars are slightly more extended than the high-mass population.
+
+\subsection{Colour--magnitude diagrams and stellar parameters}
+\label{subsec:results-cmd}
+
+\subsubsection{Optical and infrared CMDs}
+Figure~\ref{fig:cmd-optical} will present the $(G_{\rm BP}-G_{\rm RP},\,G)$ CMD for fiducial members: a well-populated main sequence down to $G\sim17$ and a broad PMS locus at red colours. Additional panels combining \textit{Gaia}+2MASS (Figs.~\ref{fig:cmd-grj}, \ref{fig:cmd-grk}) highlight PMS candidates, colour-coded by Sagitta probability.
+
+\subsubsection{Isochrone fit}
+The Bayesian isochrone fit yields (medians, 68\% credible intervals):
+\begin{align*}
+ \log_{10}(\mathrm{age/yr}) &= 6.55^{+0.16}_{-0.12}\;(t\approx3.5^{+1.4}_{-1.0}~\mathrm{Myr}),\\
+ A_V &= 1.24^{+0.26}_{-0.22}~\mathrm{mag},\\
+ \mathrm{[Fe/H]} &= +0.02\pm0.12,\\
+ \mu &= 10.22^{+0.12}_{-0.10}~\mathrm{mag}.
+\end{align*}
+Corner plots (Appendix~\ref{app:corner}) show mild age--$\mu$--$A_V$ correlations but no strong degeneracies.
+
+\subsubsection{PMS and YSO content}
+Sagitta flags 53 members with PMS probability $>0.6$ and ages spanning 1--6~Myr. The infrared-excess diagnostic gives a YSO fraction $Y_{\rm frac}=0.28\pm0.04$, indicative of ongoing or very recent star formation. PMS stars are centrally concentrated yet extend beyond $R_{\rm hm}$, consistent with recent activity in surrounding material.
+
+\subsection{Dynamics and mass segregation}
+\label{subsec:results-dynamics}
+
+\subsubsection{Radial velocities}
+Sixteen members have reliable \textit{Gaia} radial velocities, giving
+$\langle V_r\rangle=-6\pm9~\mathrm{km\,s^{-1}}$.
+Given the small sample and intrinsic dispersion, we do not attempt a virial mass from $V_r$ alone.
+
+\subsubsection{Luminosity and mass functions}
+The $G$-band luminosity function (Fig.~\ref{fig:luminosity-function}) rises to $M_G\!\approx\!+5$ then flattens near the completeness limit. Masses inferred from the isochrone fit suggest a Salpeter-like slope for $M\gtrsim1.5~M_\odot$ and a possible turnover at lower masses pending deeper data.
+
+\subsubsection{Mass-segregation diagnostics}
+Cumulative radial distributions (Figs.~\ref{fig:cumulative-magnitude}--\ref{fig:cumulative-binary}) show:
+\begin{itemize}
+  \item $M>1.8~M_\odot$ stars lie predominantly within $5'$, while $M<0.8~M_\odot$ extend beyond $10'$;
+  \item K--S tests between top and bottom mass quartiles give $p\approx0.01$ (significant segregation);
+  \item Candidate binaries ($q>0.6$) are more concentrated than single-star candidates ($p\approx0.07$).
+\end{itemize}
+The half-mass relaxation time is $t_{\rm rh}\approx13$~Myr, $\sim4\times$ the cluster age, implying the observed segregation is primordial or established very early.
+
+\biblio
+\end{document}

@@ -1,0 +1,83 @@
+\documentclass[english, a4paper, 12pt, twoside, openany]{book}
+\usepackage{preamble/thesis}
+\input{preamble/metadata.tex}
+\input{preamble/frontmatter_macros.tex}
+\input{preamble/page_styles.tex}
+\begin{document}
+\pagenumbering{roman}                       % Start with Roman numerals
+\def\biblio{}   % Reset the bibliography command to avoid per-chapter references when subfiles are compiled directly
+
+\include{frontmatter/titlepage}   % Render the title page
+\thesisLicensePage{}%
+\thesisDedicationPage{}%
+\thesisAcknowledgementsPage{}%
+\thesisAbstractPage{}%
+
+%--------------Tables of contents, figures, and tables
+
+%\nocite{*}     % Uncomment to print all references, including uncited entries
+
+\newpage
+{\setstretch{1.0}   % Single spacing for the tables of contents
+	\tableofcontents
+}
+
+\newpage
+{\setstretch{1.0}
+	\listoftables}
+
+\newpage
+{\setstretch{1.0}
+	\listoffigures}
+
+\newpage
+\addtocontents{toc}{\protect\setcounter{tocdepth}{4}}   % Table-of-contents depth to 4 (1.1.1.1)
+\pagenumbering{arabic}                                  % Switch to Arabic numerals
+\setcounter{page}{1}                                    % Restart page counter
+
+% To add chapters or sections, rename the file in the chapters directory and reference it via "\subfile{chapters/filename}".
+% File names must avoid spaces or accents for the LaTeX toolchain to work properly.
+
+\chapter{Introduction}\label{chap:introduction}                      % Printed chapter title (may use accents)
+    \subfile{chapters/01_introduction}      % Include chapter subfile 
+\clearpage                                  % Clear page after chapter
+
+\chapter{Background and Literature Review}\label{chap:background}
+    \subfile{chapters/02_background_review}
+\clearpage
+
+\chapter{Data and Methodology}\label{chap:methods}
+    \subfile{chapters/03_data_methodology}
+\clearpage
+  
+\chapter{Results}\label{chap:results}
+    \subfile{chapters/04_results}
+\clearpage
+
+\chapter{Discussion}\label{chap:discussion}
+    \subfile{chapters/05_discussion}
+\clearpage
+
+\chapter{Conclusions and Future Work}\label{chap:conclusions}
+    \subfile{chapters/06_conclusions}
+\clearpage
+
+\newpage
+\renewcommand\refname{References}          % Heading for the reference list
+{\setstretch{1.0}                           % Single spacing within the bibliography
+	\addcontentsline{toc}{chapter}{References} % Table-of-contents label
+	\bibliographystyle{apalike}               % Use apalike for consistency with thesis guidelines
+	\bibliography{cites}                      % Load references from cites.bib
+}
+
+\newpage
+\renewcommand{\appendixpagename}{Appendices}     % Heading at the start of the appendix section
+\addcontentsline{toc}{chapter}{Appendices}       % Register appendices in the table of contents
+
+\appendix   % From here on, chapter/figure/table counters reset per appendix
+
+\chapter{Supplementary Material}\label{chap:appendices}                      % Appendix A (instead of Chapter 1)
+    \subfile{chapters/appendix}    % Include appendix subfile
+\clearpage
+
+\end{document}
